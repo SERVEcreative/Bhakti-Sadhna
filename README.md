@@ -1,17 +1,23 @@
-# bhakti_sadhana
+# Bhakti Sadhana (भक्ति साधना)
 
-A new Flutter project.
+Hindi devotional Flutter app — Sanatan Dharma traditional worship guidance.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- पूजा विधि, आरती, भजन, मंत्र, त्योहार, व्रत कथा
+- In-app aarti audio (Supabase Storage + `just_audio`)
+- Temple-themed UI with deity and category content
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+flutter pub get
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Configure Supabase in `lib/config/supabase_config.dart`, create the `aartis` bucket, and upload MP3s per `assets/content/aarti_audio.json`. See `docs/` and `scripts/setup_supabase.sh`.
+
+## Run
+
+```bash
+flutter run
+```
