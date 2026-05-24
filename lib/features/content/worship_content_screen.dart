@@ -5,13 +5,13 @@ import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/data/models/deity.dart';
 import 'package:bhakti_sadhana/data/models/worship_category.dart';
 import 'package:bhakti_sadhana/data/repositories/content_repository.dart';
+import 'package:bhakti_sadhana/widgets/katha/katha_launcher.dart';
+import 'package:bhakti_sadhana/widgets/katha/vrat_katha_hub.dart';
 import 'package:bhakti_sadhana/services/aarti_player/aarti_player_service.dart';
 import 'package:bhakti_sadhana/widgets/aarti_player_bar.dart';
 import 'package:bhakti_sadhana/widgets/deity_portrait.dart';
 import 'package:bhakti_sadhana/widgets/temple_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
 class WorshipContentScreen extends StatefulWidget {
   const WorshipContentScreen({
     super.key,
@@ -102,23 +102,19 @@ class _ContentBody extends StatelessWidget {
         ...switch (category) {
           WorshipCategory.puja => _pujaContent(context, deity),
           WorshipCategory.aarti => _aartiContent(deity),
-          WorshipCategory.bhajan => _bhajanContent(deity),
           WorshipCategory.mantra => _mantraContent(deity),
           WorshipCategory.festival => _textSection(AppStrings.festival, deity.festival),
-          WorshipCategory.vrat => _textSection(AppStrings.vratKatha, deity.vrat),
+          WorshipCategory.vrat => [VratKathaHub(deity: deity)],
+          WorshipCategory.donation => const [],
         },
       ],
     );
   }
 
   List<Widget> _pujaContent(BuildContext context, Deity d) {
-    void openKatha() => context.push('/content/${WorshipCategory.vrat.id}/${d.id}');
+    void openKatha() => KathaLauncher.showModePicker(context, d);
 
     return [
-      if (d.hasKatha) ...[
-        _KathaPadheButton(onPressed: openKatha),
-        const SizedBox(height: 20),
-      ],
       if (d.samagri.isNotEmpty) ...[
         const _SectionTitle(AppStrings.pujaSamagri, Icons.inventory_2_outlined),
         const SizedBox(height: 8),
@@ -131,16 +127,12 @@ class _ContentBody extends StatelessWidget {
         (s) => _PujaStepCard(
           step: s,
           total: d.pujaSteps.length,
-          showKathaLink: d.hasKatha && _isKathaPujaStep(s),
+          showKathaLink: d.hasKatha && s.isKathaStep,
           onKathaPadhe: openKatha,
+          aarti: d.aartis.isNotEmpty && s.isAartiStep ? d.aartis.first : null,
         ),
       ),
     ];
-  }
-
-  bool _isKathaPujaStep(PujaStep step) {
-    final title = step.title;
-    return title.contains('कथा') || title.toLowerCase().contains('katha');
   }
 
   List<Widget> _aartiContent(Deity d) {
@@ -153,18 +145,6 @@ class _ContentBody extends StatelessWidget {
           AartiPlayerBar(aartiId: a.id, title: a.title),
           const SizedBox(height: 12),
           _VerseCard(verses: a.verses),
-          const SizedBox(height: 24),
-        ]).toList();
-  }
-
-  List<Widget> _bhajanContent(Deity d) {
-    if (d.bhajans.isEmpty) {
-      return [_emptyNote(AppStrings.comingSoonBhajan)];
-    }
-    return d.bhajans.expand((b) => [
-          _SectionTitle(b.title, Icons.music_note_rounded),
-          const SizedBox(height: 12),
-          _VerseCard(verses: b.lyrics),
           const SizedBox(height: 24),
         ]).toList();
   }
@@ -317,10 +297,18 @@ class _SamagriList extends StatelessWidget {
   }
 }
 
-class _KathaPadheButton extends StatelessWidget {
-  const _KathaPadheButton({required this.onPressed});
+class _PujaActionButton extends StatelessWidget {
+  const _PujaActionButton({
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+    this.trailingIcon = Icons.arrow_forward_rounded,
+  });
 
+  final String label;
+  final IconData icon;
   final VoidCallback onPressed;
+  final IconData trailingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -346,17 +334,17 @@ class _KathaPadheButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.menu_book_rounded, color: BhaktiTheme.maroonDeep, size: 26),
+                Icon(icon, color: BhaktiTheme.maroonDeep, size: 26),
                 const SizedBox(width: 10),
                 Text(
-                  AppStrings.kathaPadhe,
+                  label,
                   style: BhaktiTheme.titleHi.copyWith(
                     fontSize: 18,
                     color: BhaktiTheme.maroonDeep,
                   ),
                 ),
                 const SizedBox(width: 6),
-                Icon(Icons.arrow_forward_rounded, color: BhaktiTheme.maroonDeep, size: 22),
+                Icon(trailingIcon, color: BhaktiTheme.maroonDeep, size: 22),
               ],
             ),
           ),
@@ -372,12 +360,14 @@ class _PujaStepCard extends StatelessWidget {
     required this.total,
     this.showKathaLink = false,
     this.onKathaPadhe,
+    this.aarti,
   });
 
   final PujaStep step;
   final int total;
   final bool showKathaLink;
   final VoidCallback? onKathaPadhe;
+  final AartiItem? aarti;
 
   @override
   Widget build(BuildContext context) {
@@ -429,23 +419,35 @@ class _PujaStepCard extends StatelessWidget {
             ],
             if (showKathaLink && onKathaPadhe != null) ...[
               const SizedBox(height: 14),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: onKathaPadhe,
-                  icon: const Icon(Icons.auto_stories_rounded, size: 20),
-                  label: Text(
-                    AppStrings.kathaPadhe,
-                    style: BhaktiTheme.bodyHi.copyWith(
-                      fontSize: 15,
-                      color: BhaktiTheme.saffronLight,
-                    ),
-                  ),
-                  style: TextButton.styleFrom(
-                    foregroundColor: BhaktiTheme.goldLight,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  ),
+              SizedBox(
+                width: double.infinity,
+                child: _PujaActionButton(
+                  label: AppStrings.kathaPadhe,
+                  icon: Icons.menu_book_rounded,
+                  onPressed: onKathaPadhe!,
                 ),
+              ),
+            ],
+            if (aarti != null) ...[
+              const SizedBox(height: 14),
+              SizedBox(
+                width: double.infinity,
+                child: _PujaActionButton(
+                  label: AppStrings.aartiChalaye,
+                  icon: Icons.local_fire_department_rounded,
+                  trailingIcon: Icons.play_arrow_rounded,
+                  onPressed: () => AartiPlayerService.instance.play(aarti!.id),
+                ),
+              ),
+              ValueListenableBuilder<AartiPlaybackSnapshot>(
+                valueListenable: AartiPlayerService.instance.snapshot,
+                builder: (context, snap, _) {
+                  if (snap.aartiId != aarti!.id) return const SizedBox.shrink();
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: AartiPlayerBar(aartiId: aarti!.id, title: aarti!.title),
+                  );
+                },
               ),
             ],
           ],

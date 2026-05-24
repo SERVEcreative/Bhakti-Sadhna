@@ -1,3 +1,4 @@
+import 'package:bhakti_sadhana/features/donation/donation_screen.dart';
 import 'package:bhakti_sadhana/features/category/deity_select_screen.dart';
 import 'package:bhakti_sadhana/features/content/worship_content_screen.dart';
 import 'package:bhakti_sadhana/features/home/home_screen.dart';
@@ -28,6 +29,25 @@ final appRouter = GoRouter(
           return FadeTransition(opacity: animation, child: child);
         },
       ),
+    ),
+    GoRoute(
+      path: '/donation',
+      pageBuilder: (context, state) {
+        final causeId = state.uri.queryParameters['cause'];
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: DonationScreen(highlightCauseId: causeId),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.04),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
+              child: child,
+            );
+          },
+        );
+      },
     ),
     GoRoute(
       path: '/select/:categoryId',

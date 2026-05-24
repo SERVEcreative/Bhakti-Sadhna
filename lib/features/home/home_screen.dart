@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _precacheCategoryImages() {
     for (final cat in WorshipCategory.values) {
-      precacheImage(AssetImage(cat.imageAsset), context);
+      precacheImage(AssetImage(cat.imageAsset), context).ignore();
     }
   }
 
@@ -82,7 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       return CategoryCard(
                         key: ValueKey(cat.id),
                         category: cat,
-                        onTap: () => context.push('/select/${cat.id}'),
+                        onTap: () {
+                          if (cat.opensDonationScreen) {
+                            context.push('/donation');
+                          } else {
+                            context.push('/select/${cat.id}');
+                          }
+                        },
                       );
                     },
                     childCount: categories.length,

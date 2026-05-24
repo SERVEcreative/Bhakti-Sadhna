@@ -92,7 +92,6 @@ class _AppAssetImageState extends State<AppAssetImage> {
       return SizedBox(
         width: widget.width,
         height: widget.height,
-        child: widget.fallback ?? const SizedBox.shrink(),
       );
     }
 

@@ -4,7 +4,7 @@ Hindi devotional Flutter app — Sanatan Dharma traditional worship guidance.
 
 ## Features
 
-- पूजा विधि, आरती, भजन, मंत्र, त्योहार, व्रत कथा
+- पूजा विधि, आरती, मंत्र, त्योहार, व्रत कथा
 - In-app aarti audio (Supabase Storage + `just_audio`)
 - Temple-themed UI with deity and category content
 

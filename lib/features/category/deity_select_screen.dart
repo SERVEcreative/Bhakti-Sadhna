@@ -25,6 +25,11 @@ class _DeitySelectScreenState extends State<DeitySelectScreen> {
   void initState() {
     super.initState();
     _category = WorshipCategory.fromId(widget.categoryId);
+    if (_category?.opensDonationScreen == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) context.replace('/donation');
+      });
+    }
     _deitiesFuture = ContentRepository.instance.loadDeities();
   }
 
@@ -164,14 +169,14 @@ class _CategoryBanner extends StatelessWidget {
         'चरणबद्ध पूजा विधि, सामग्री और मंत्र — घर पर मंदिर जैसी पूजा के लिए।',
       WorshipCategory.aarti =>
         'पूर्ण आरती और स्तुति के श्लोक — दीप जलाकर पढ़ें।',
-      WorshipCategory.bhajan =>
-        'भक्ति भजन के बोल — मन लगाकर गाएँ या पढ़ें।',
       WorshipCategory.mantra =>
         'पवित्र मंत्र और उनका अर्थ — जप के लिए।',
       WorshipCategory.festival =>
         'प्रमुख त्योहारों की पूजा विधि संक्षेप में।',
       WorshipCategory.vrat =>
         'व्रत की कथा और नियम — श्रद्धा से पालन करें।',
+      WorshipCategory.donation =>
+        'गौ सेवा, मातृ-पितृ सेवा, मंदिर और तीर्थ — श्रद्धा से दान।',
     };
   }
 }

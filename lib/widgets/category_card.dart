@@ -1,5 +1,7 @@
 import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/data/models/worship_category.dart';
+import 'package:bhakti_sadhana/widgets/app_asset_image.dart' show assetCacheDimension;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,8 +24,7 @@ class _CategoryCardState extends State<CategoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final dpr = MediaQuery.devicePixelRatioOf(context).round();
-    final imageCachePx = (140 * dpr).clamp(128, 384);
+    final imageCachePx = assetCacheDimension(140, context);
 
     return RepaintBoundary(
       child: GestureDetector(
@@ -81,21 +82,26 @@ class _CategoryCardState extends State<CategoryCard> {
                           padding: const EdgeInsets.all(8),
                           child: Image.asset(
                             widget.category.imageAsset,
+                            key: ValueKey(widget.category.imageAsset),
                             fit: BoxFit.contain,
                             alignment: Alignment.center,
                             filterQuality: FilterQuality.medium,
                             cacheWidth: imageCachePx,
-                            cacheHeight: imageCachePx,
                             gaplessPlayback: true,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Center(
-                              child: Icon(
-                                widget.category.icon,
-                                size: 48,
-                                color:
-                                    BhaktiTheme.gold.withValues(alpha: 0.35),
-                              ),
-                            ),
+                            errorBuilder: (context, error, stackTrace) {
+                              if (kDebugMode) {
+                                debugPrint(
+                                  'CategoryCard: ${widget.category.imageAsset} — $error',
+                                );
+                              }
+                              return Center(
+                                child: Icon(
+                                  widget.category.icon,
+                                  size: 48,
+                                  color: BhaktiTheme.gold.withValues(alpha: 0.35),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),

@@ -6,6 +6,8 @@ class PujaStep {
     required this.title,
     required this.body,
     this.mantra,
+    this.linkVratKatha = false,
+    this.linkPlayAarti = false,
   });
 
   factory PujaStep.fromJson(Map<String, dynamic> json) => PujaStep(
@@ -13,12 +15,46 @@ class PujaStep {
         title: (json['titleHi'] ?? json['title']) as String,
         body: (json['bodyHi'] ?? json['body']) as String,
         mantra: (json['mantraHi'] ?? json['mantra']) as String?,
+        linkVratKatha: json['linkVratKatha'] as bool? ?? false,
+        linkPlayAarti: json['linkPlayAarti'] as bool? ?? false,
       );
 
   final int order;
   final String title;
   final String body;
   final String? mantra;
+
+  /// पूजा विधि में कथा/पाठ वाला चरण — व्रत कथा स्क्रीन पर लिंक दिखाएँ।
+  final bool linkVratKatha;
+
+  /// पूजा विधि में आरती चलाएँ बटन दिखाएँ।
+  final bool linkPlayAarti;
+
+  bool get isKathaStep {
+    if (linkVratKatha) return true;
+    final titleLower = title.toLowerCase();
+    if (title.contains('कथा') || titleLower.contains('katha')) return true;
+    if (title.contains('रामायण') && title.contains('पाठ')) return true;
+    if (body.contains('कथा') &&
+        (body.contains('सुन') || body.contains('पढ़') || body.contains('पढ'))) {
+      return true;
+    }
+    return false;
+  }
+
+  bool get isAartiStep {
+    if (linkPlayAarti) return true;
+    final titleLower = title.toLowerCase();
+    if (title.contains('आरती') || titleLower.contains('aarti')) return true;
+    if (body.contains('आरती') || body.toLowerCase().contains('aarti')) {
+      return body.contains('कर') ||
+          body.contains('गाए') ||
+          body.contains('सुन') ||
+          body.contains('पढ़') ||
+          body.contains('पढ');
+    }
+    return false;
+  }
 }
 
 class AartiItem {
@@ -37,24 +73,6 @@ class AartiItem {
   final String id;
   final String title;
   final List<String> verses;
-}
-
-class BhajanItem {
-  const BhajanItem({
-    required this.id,
-    required this.title,
-    required this.lyrics,
-  });
-
-  factory BhajanItem.fromJson(Map<String, dynamic> json) => BhajanItem(
-        id: json['id'] as String,
-        title: (json['titleHi'] ?? json['title']) as String,
-        lyrics: ((json['lyricsHi'] ?? json['lyrics']) as List<dynamic>).cast<String>(),
-      );
-
-  final String id;
-  final String title;
-  final List<String> lyrics;
 }
 
 class MantraItem {
@@ -83,7 +101,6 @@ class Deity {
     required this.samagri,
     required this.pujaSteps,
     required this.aartis,
-    required this.bhajans,
     required this.mantras,
     required this.festival,
     required this.vrat,
@@ -113,10 +130,6 @@ class Deity {
               ?.map((e) => AartiItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      bhajans: (json['bhajans'] as List<dynamic>?)
-              ?.map((e) => BhajanItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
       mantras: (json['mantras'] as List<dynamic>?)
               ?.map((e) => MantraItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -138,11 +151,25 @@ class Deity {
   final List<String> samagri;
   final List<PujaStep> pujaSteps;
   final List<AartiItem> aartis;
-  final List<BhajanItem> bhajans;
   final List<MantraItem> mantras;
   final String festival;
   final String vrat;
 
   /// व्रत कथा श्रेणी में सामग्री उपलब्ध है या नहीं।
   bool get hasKatha => vrat.trim().isNotEmpty;
+
+  Deity copyWith({List<MantraItem>? mantras}) => Deity(
+        id: id,
+        name: name,
+        tagline: tagline,
+        emoji: emoji,
+        imageAsset: imageAsset,
+        about: about,
+        samagri: samagri,
+        pujaSteps: pujaSteps,
+        aartis: aartis,
+        mantras: mantras ?? this.mantras,
+        festival: festival,
+        vrat: vrat,
+      );
 }

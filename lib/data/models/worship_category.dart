@@ -15,13 +15,6 @@ enum WorshipCategory {
     Icons.local_fire_department_rounded,
     'assets/images/categories/aarti.png',
   ),
-  bhajan(
-    'bhajan',
-    'भजन',
-    'भक्ति गीत',
-    Icons.music_note_rounded,
-    'assets/images/categories/bhajan.png',
-  ),
   mantra(
     'mantra',
     'मंत्र',
@@ -42,6 +35,13 @@ enum WorshipCategory {
     'उपवास कथा',
     Icons.nights_stay_rounded,
     'assets/images/categories/vrat.png',
+  ),
+  donation(
+    'donation',
+    'दान पुण्य',
+    'सेवा और दान',
+    Icons.volunteer_activism_rounded,
+    'assets/images/categories/donation.png',
   );
 
   const WorshipCategory(
@@ -66,4 +66,7 @@ enum WorshipCategory {
     }
     return null;
   }
+
+  /// देवता चयन नहीं — सीधे दान स्क्रीन।
+  bool get opensDonationScreen => this == WorshipCategory.donation;
 }
