@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="भक्ति साधना — पूजा, आरती, भजन">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="भक्ति साधना">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>भक्ति साधना</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <script>
+    (function () {
+      var BELL_PATHS = [
+        'assets/assets/sounds/temple_bell.mp3',
+        'assets/sounds/temple_bell.mp3'
+      ];
+
+      window.playMandirBell = async function () {
+        for (var i = 0; i < BELL_PATHS.length; i++) {
+          try {
+            var res = await fetch(BELL_PATHS[i]);
+            if (!res.ok) continue;
+            var buf = await res.arrayBuffer();
+            var blob = new Blob([buf], { type: 'audio/mpeg' });
+            var url = URL.createObjectURL(blob);
+            var audio = new Audio(url);
+            audio.volume = 1.0;
+            await audio.play();
+            return true;
+          } catch (e) {
+            console.warn('mandir bell try failed:', BELL_PATHS[i], e);
+          }
+        }
+        return false;
+      };
+
+      window.addEventListener('flutter-first-frame', function () {
+        setTimeout(function () {
+          window.playMandirBell().catch(function () {});
+        }, 300);
+      });
+    })();
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

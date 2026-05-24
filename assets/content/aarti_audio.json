@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "storageRoot": "aartis",
+  "sources": {
+    "jai_ganesh": { "storagePath": "aartis/ganesh_aarti.mp3" },
+    "shiv_aarti": { "storagePath": "aartis/shiv_aarti.mp3" },
+    "vishnu_aarti": { "storagePath": "aartis/vishnu_aarti.mp3" },
+    "lakshmi_aarti": { "storagePath": "aartis/lakshmi_aarti.mp3" },
+    "hanuman_aarti": { "storagePath": "aartis/hanuman_aarti.mp3" },
+    "durga_aarti": { "storagePath": "aartis/durga_aarti.mp3" },
+    "krishna_aarti": { "storagePath": "aartis/krishna_aarti.mp3" },
+    "ram_aarti": { "storagePath": "aartis/ram_aarti.mp3" },
+    "saraswati_aarti": { "storagePath": "aartis/saraswati_aarti.mp3" },
+    "kali_aarti": { "storagePath": "aartis/kali_aarti.mp3" },
+    "sai_aarti": { "storagePath": "aartis/sai_aarti.mp3" },
+    "shani_aarti": { "storagePath": "aartis/shani_aarti.mp3" },
+    "surya_aarti": { "storagePath": "aartis/surya_aarti.mp3" },
+    "skanda_aarti": { "storagePath": "aartis/skanda_aarti.mp3" },
+    "radha_aarti": { "storagePath": "aartis/radha_aarti.mp3" },
+    "parvati_aarti": { "storagePath": "aartis/parvati_aarti.mp3" },
+    "jagannath_aarti": { "storagePath": "aartis/jagannath_aarti.mp3" },
+    "balaji_aarti": { "storagePath": "aartis/balaji_aarti.mp3" },
+    "narasimha_aarti": { "storagePath": "aartis/narasimha_aarti.mp3" },
+    "gayatri_aarti": { "storagePath": "aartis/gayatri_aarti.mp3" },
+    "annapurna_aarti": { "storagePath": "aartis/annapurna_aarti.mp3" },
+    "ganga_aarti": { "storagePath": "aartis/ganga_aarti.mp3" },
+    "satya_aarti": { "storagePath": "aartis/satya_aarti.mp3" },
+    "kubera_aarti": { "storagePath": "aartis/kubera_aarti.mp3" }
+  }
+}
