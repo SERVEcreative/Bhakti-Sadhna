@@ -9,25 +9,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class DonationScreen extends StatelessWidget {
-  const DonationScreen({super.key, this.highlightCauseId});
+  const DonationScreen({
+    super.key,
+    this.highlightCauseId,
+    this.inTab = false,
+  });
 
   final String? highlightCauseId;
+
+  /// निचले टैब में — पीछे बटन नहीं।
+  final bool inTab;
 
   @override
   Widget build(BuildContext context) {
     return TempleScaffold(
       title: AppStrings.donationTitle,
+      showBackButton: !inTab,
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
         children: [
           const _DonationIntro(),
           const SizedBox(height: 20),
-          ...DonationGroup.values.map(
-            (g) => _DonationGroupSection(
-              group: g,
-              highlightCauseId: highlightCauseId,
-            ),
-          ),
+          _DonationCausesGrid(highlightCauseId: highlightCauseId),
         ],
       ),
     );
@@ -77,47 +80,42 @@ class _DonationIntro extends StatelessWidget {
   }
 }
 
-class _DonationGroupSection extends StatelessWidget {
-  const _DonationGroupSection({
-    required this.group,
-    this.highlightCauseId,
-  });
+class _DonationCausesGrid extends StatelessWidget {
+  const _DonationCausesGrid({this.highlightCauseId});
 
-  final DonationGroup group;
   final String? highlightCauseId;
 
   @override
   Widget build(BuildContext context) {
+    final group = DonationGroup.general;
     final causes = DonationCatalog.forGroup(group);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(group.title, style: BhaktiTheme.titleHi.copyWith(fontSize: 19)),
-          const SizedBox(height: 4),
-          Text(group.subtitle, style: BhaktiTheme.labelSub.copyWith(fontSize: 13)),
-          const SizedBox(height: 12),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: causes.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1,
-            ),
-            itemBuilder: (context, index) {
-              final cause = causes[index];
-              return _DonationSquareCard(
-                cause: cause,
-                highlighted: cause.id == highlightCauseId,
-              );
-            },
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(group.title, style: BhaktiTheme.titleHi.copyWith(fontSize: 19)),
+        const SizedBox(height: 4),
+        Text(group.subtitle, style: BhaktiTheme.labelSub.copyWith(fontSize: 13)),
+        const SizedBox(height: 12),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: causes.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 1,
           ),
-        ],
-      ),
+          itemBuilder: (context, index) {
+            final cause = causes[index];
+            return _DonationSquareCard(
+              cause: cause,
+              highlighted: cause.id == highlightCauseId,
+            );
+          },
+        ),
+      ],
     );
   }
 }

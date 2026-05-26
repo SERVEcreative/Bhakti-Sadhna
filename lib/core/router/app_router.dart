@@ -1,10 +1,18 @@
-import 'package:bhakti_sadhana/features/donation/donation_screen.dart';
 import 'package:bhakti_sadhana/features/category/deity_select_screen.dart';
 import 'package:bhakti_sadhana/features/content/worship_content_screen.dart';
-import 'package:bhakti_sadhana/features/home/home_screen.dart';
+import 'package:bhakti_sadhana/features/shell/main_shell_screen.dart';
 import 'package:bhakti_sadhana/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+int _shellTabIndex(Uri uri) {
+  final tab = uri.queryParameters['tab'];
+  return switch (tab) {
+    'mandir' => 1,
+    'daan' || 'donation' => 2,
+    _ => 0,
+  };
+}
 
 final appRouter = GoRouter(
   initialLocation: '/splash',
@@ -24,7 +32,10 @@ final appRouter = GoRouter(
       path: '/',
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
-        child: const HomeScreen(),
+        child: MainShellScreen(
+          initialIndex: _shellTabIndex(state.uri),
+          highlightCauseId: state.uri.queryParameters['cause'],
+        ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -32,21 +43,12 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/donation',
-      pageBuilder: (context, state) {
-        final causeId = state.uri.queryParameters['cause'];
-        return CustomTransitionPage(
-          key: state.pageKey,
-          child: DonationScreen(highlightCauseId: causeId),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.04),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
-              child: child,
-            );
-          },
-        );
+      redirect: (context, state) {
+        final cause = state.uri.queryParameters['cause'];
+        if (cause != null && cause.isNotEmpty) {
+          return '/?tab=daan&cause=$cause';
+        }
+        return '/?tab=daan';
       },
     ),
     GoRoute(

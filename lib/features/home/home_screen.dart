@@ -33,7 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = WorshipCategory.values;
+    final categories = WorshipCategory.values
+        .where((c) => !c.opensDonationScreen)
+        .toList();
 
     return Scaffold(
       body: TempleBackground(
@@ -82,13 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return CategoryCard(
                         key: ValueKey(cat.id),
                         category: cat,
-                        onTap: () {
-                          if (cat.opensDonationScreen) {
-                            context.push('/donation');
-                          } else {
-                            context.push('/select/${cat.id}');
-                          }
-                        },
+                        onTap: () => context.push('/select/${cat.id}'),
                       );
                     },
                     childCount: categories.length,

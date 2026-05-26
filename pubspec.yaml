@@ -41,6 +41,7 @@ dependencies:
   wakelock_plus: ^1.3.2
   supabase_flutter: ^2.12.0
   flutter_tts: ^4.2.5
+  qr_flutter: ^4.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -72,6 +73,9 @@ flutter:
     - assets/content/mantras.json
     - assets/content/katha/
     - assets/images/deities/
+    - assets/images/mandir/
+    - assets/images/mandir/temple_arch.png
+    - assets/images/mandir/thali_diya.gif
     - assets/images/categories/
     - assets/images/categories/donation.png
     - assets/sounds/

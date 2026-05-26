@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum DonationGroup {
-  seva('seva', 'सेवा दान', 'गौ, माता-पिता और समाज सेवा'),
-  mandir('mandir', 'मंदिर सेवा', 'दीप, भोग और मंदिर निर्माण'),
-  teerth('teerth', 'तीर्थ और देश', 'भारत व विदेश के पवित्र स्थान');
+  general('general', 'दान का उद्देश्य चुनें', 'गौ दान, मंदिर ट्रस्ट या ऐप विकास');
 
   const DonationGroup(this.id, this.title, this.subtitle);
 

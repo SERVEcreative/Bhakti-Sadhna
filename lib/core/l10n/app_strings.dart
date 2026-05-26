@@ -7,18 +7,34 @@ abstract final class AppStrings {
   static const String homePrompt = 'आज क्या करना चाहेंगे?';
   static const String homeSubPrompt = 'अपनी भक्ति का मार्ग चुनें';
 
+  static const String navPuja = 'पूजा';
+  static const String navMandir = 'मंदिर';
+  static const String navDaan = 'दान पुण्य';
+
+  static const String mandirTitle = 'आभासी मंदिर';
+  static const String mandirTopHint = 'गर्भगृह में दर्शन कर आरती करें';
+  static const String mandirPhotoSwipeHint =
+      'फोटो पर बाएँ–दाएँ स्वाइप करें — भगवान बदलें';
+  static const String mandirGarbhagriha = '— गर्भगृह —';
+  static const String mandirBellButton = 'घंटी';
+
   static const String donationHomeTitle = 'दान पुण्य';
   static const String donationHomeHint =
-      'गौ सेवा, मातृ-पितृ सेवा, मंदिर, तीर्थ — अलग-अलग कारण चुनें';
+      'गौ दान, मंदिर ट्रस्ट, या ऐप विकास — दान का उद्देश्य चुनें';
   static const String donationTitle = 'दान पुण्य';
   static const String donationSubtitle =
-      'श्रद्धा से दान करें — नीचे कारण चुनें, राशि तय करें और विवरण कॉपी करें।';
+      'श्रद्धा से दान करें — राशि चुनें और QR स्कैन करके UPI से भुगतान करें।';
   static const String donationAmount = 'दान राशि चुनें';
   static const String donationCustomAmount = 'अन्य राशि (₹)';
   static const String donationCopyDetails = 'दान विवरण कॉपी करें';
-  static const String donationUpi = 'UPI लिंक कॉपी करें';
+  static const String donationQrTitle = 'दान QR — स्कैन करें';
+  static const String donationQrHint =
+      'PhonePe, GPay या किसी भी UPI ऐप से QR स्कैन करें और भुगतान पूरा करें।';
+  static const String donationQrSelectAmount = 'दान राशि चुनें — QR यहाँ दिखेगा';
+  static const String donationCopyUpiId = 'UPI ID कॉपी करें';
+  static const String donationUpiIdCopied = 'UPI ID कॉपी हो गई';
   static const String donationCopied = 'विवरण कॉपी हो गया';
-  static const String donationUpiCopied = 'UPI लिंक कॉपी हो गया — UPI ऐप में चिपकाएँ';
+  static const String donationSelectAmount = 'कृपया दान राशि चुनें या भरें';
   static const String donationDisclaimer =
       'दान संबंधित भुगतान आपके UPI/बैंक ऐप से होगा। राशि सत्यापन के बाद ही पुष्टि मानें।';
   static const String disclaimer =

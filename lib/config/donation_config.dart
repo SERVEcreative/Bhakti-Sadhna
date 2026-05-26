@@ -1,7 +1,10 @@
-/// दान — UPI / संस्था विवरण (भविष्य में भरें)।
+/// दान — UPI विवरण।
 abstract final class DonationConfig {
-  /// UPI ID — खाली हो तो ऐप सिर्फ विवरण कॉपी करेगा।
-  static const String upiId = '';
+  /// UPI ID — `--dart-define=DONATION_UPI_ID=...` se override ho sakta hai।
+  static const String upiId = String.fromEnvironment(
+    'DONATION_UPI_ID',
+    defaultValue: 'Q133302176@ybl',
+  );
 
   static const String payeeName = 'भक्ति साधना सेवा';
 

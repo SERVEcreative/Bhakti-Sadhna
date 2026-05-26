@@ -9,22 +9,29 @@ class TempleScaffold extends StatelessWidget {
     required this.title,
     required this.body,
     this.floatingAction,
+    this.showBackButton = true,
   });
 
   final String title;
   final Widget body;
   final Widget? floatingAction;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
+    final canPop = showBackButton && context.canPop();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       floatingActionButton: floatingAction,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => context.pop(),
-        ),
+        automaticallyImplyLeading: canPop,
+        leading: canPop
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                onPressed: () => context.pop(),
+              )
+            : null,
         title: Text(title, style: BhaktiTheme.titleHi.copyWith(fontSize: 20)),
       ),
       body: TempleBackground(
