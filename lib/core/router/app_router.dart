@@ -8,9 +8,10 @@ import 'package:go_router/go_router.dart';
 int _shellTabIndex(Uri uri) {
   final tab = uri.queryParameters['tab'];
   return switch (tab) {
+    'puja' || 'home' => 0,
     'mandir' => 1,
     'daan' || 'donation' => 2,
-    _ => 0,
+    _ => 1,
   };
 }
 

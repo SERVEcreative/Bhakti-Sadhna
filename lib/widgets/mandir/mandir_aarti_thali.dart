@@ -41,6 +41,8 @@ class _MandirAartiThaliState extends State<MandirAartiThali>
 
   Size? _cachedArea;
   Size? _cachedThali;
+  Size? _lastLayoutArea;
+  double? _lastCarpetHeight;
 
   late final AnimationController _transitionController;
   late final AnimationController _orbitController;
@@ -63,6 +65,9 @@ class _MandirAartiThaliState extends State<MandirAartiThali>
           setState(() {});
         }
       });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
@@ -112,8 +117,25 @@ class _MandirAartiThaliState extends State<MandirAartiThali>
     );
   }
 
+  void _seatAtRest(Size area, Size thali) {
+    _center = _clampCenter(_restCenter(area, thali), area, thali);
+  }
+
   void _ensureCenter(Size area, Size thali) {
     _center ??= _clampCenter(_restCenter(area, thali), area, thali);
+  }
+
+  bool _layoutMetricsChanged(Size area) {
+    return _lastLayoutArea != area || _lastCarpetHeight != widget.carpetHeight;
+  }
+
+  void _syncRestOnLayoutChange(Size area, Size thali) {
+    if (!_layoutMetricsChanged(area)) return;
+    _lastLayoutArea = area;
+    _lastCarpetHeight = widget.carpetHeight;
+    if (_phase == _ThaliPhase.idle) {
+      _seatAtRest(area, thali);
+    }
   }
 
   void _updateTilt(Offset center, Size area, Size thali) {
@@ -231,6 +253,11 @@ class _MandirAartiThaliState extends State<MandirAartiThali>
     final thali = _cachedThali;
     if (area == null || thali == null) return;
 
+    if (oldWidget.carpetHeight != widget.carpetHeight &&
+        (_phase == _ThaliPhase.idle || _phase == _ThaliPhase.dragging)) {
+      _seatAtRest(area, thali);
+    }
+
     if (widget.aartiActive && !oldWidget.aartiActive) {
       _startRise(area, thali);
     } else if (!widget.aartiActive && oldWidget.aartiActive) {
@@ -310,6 +337,14 @@ class _MandirAartiThaliState extends State<MandirAartiThali>
         final thali = _thaliSize(area);
         _cachedArea = area;
         _cachedThali = thali;
+
+        if (_center == null && _phase == _ThaliPhase.idle) {
+          _seatAtRest(area, thali);
+          _lastLayoutArea = area;
+          _lastCarpetHeight = widget.carpetHeight;
+        } else {
+          _syncRestOnLayoutChange(area, thali);
+        }
 
         final center = _displayCenter(area, thali);
         _updateTilt(center, area, thali);

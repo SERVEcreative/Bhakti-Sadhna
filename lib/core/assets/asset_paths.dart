@@ -18,6 +18,7 @@ abstract final class AssetPaths {
   static const String mandirCarpet = 'assets/images/mandir/carpet.png';
 
   static const String mandirAartiSound = 'assets/sounds/mandir_aarti.mp3';
+  /// शंख बटन / carpet शंख / आरती के बीच — घंटी (`temple_bell`) नहीं।
   static const String mandirShankhSound = 'assets/sounds/mandir_shankh.mp3';
 
   /// `puja.png` / `puja.jpg` / `.../puja` → `.../puja`

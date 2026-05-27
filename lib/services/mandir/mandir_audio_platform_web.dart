@@ -14,6 +14,9 @@ external void _stopMandirAarti();
 @JS('stopMandirShankh')
 external void _stopMandirShankh();
 
+@JS('playMandirShankhOnce')
+external JSPromise<JSBoolean> _playMandirShankhOnce();
+
 Future<bool> startMandirAartiLoopWeb() async {
   try {
     final ok = (await _startMandirAartiLoop().toDart).toDart;
@@ -49,5 +52,16 @@ Future<void> stopMandirShankhWeb() async {
     _stopMandirShankh();
   } catch (e) {
     debugPrint('MandirShrineAudio web stop shankh: $e');
+  }
+}
+
+Future<bool> playMandirShankhOnceWeb() async {
+  try {
+    final ok = (await _playMandirShankhOnce().toDart).toDart;
+    debugPrint('MandirShrineAudio web shankh once => $ok');
+    return ok;
+  } catch (e) {
+    debugPrint('MandirShrineAudio web shankh once error: $e');
+    return false;
   }
 }

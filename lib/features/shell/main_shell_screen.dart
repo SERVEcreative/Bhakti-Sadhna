@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 class MainShellScreen extends StatefulWidget {
   const MainShellScreen({
     super.key,
-    this.initialIndex = 0,
+    this.initialIndex = 1,
     this.highlightCauseId,
   });
 

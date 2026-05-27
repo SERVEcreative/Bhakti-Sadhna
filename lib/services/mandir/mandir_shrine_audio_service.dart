@@ -9,22 +9,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
-/// मंदिर — आरती / शंख loop; एक समय पर एक ही ध्वनि।
+/// मंदिर — आरती / शंख loop; एक समय पर एक ही ध्वनि (शंख once को छोड़कर)।
 class MandirShrineAudioService {
   MandirShrineAudioService._();
   static final MandirShrineAudioService instance = MandirShrineAudioService._();
 
+  /// शंख — सिर्फ `assets/sounds/mandir_shankh.mp3` (घंटी / आरती नहीं)।
+  static const String _shankhAsset = AssetPaths.mandirShankhSound;
+
   AudioPlayer? _aartiPlayer;
   AudioPlayer? _shankhPlayer;
+  AudioPlayer? _shankhOncePlayer;
 
-  /// नए MP3 assets bundle में लोड हों — app शुरू पर।
   Future<void> warmUp() async {
     if (kIsWeb) return;
     try {
-      await Future.wait([
-        rootBundle.load(AssetPaths.mandirAartiSound),
-        rootBundle.load(AssetPaths.mandirShankhSound),
-      ]);
+      final shankh = await rootBundle.load(_shankhAsset);
+      await rootBundle.load(AssetPaths.mandirAartiSound);
+      debugPrint(
+        'MandirShrineAudioService: shankh asset OK (${shankh.lengthInBytes} bytes)',
+      );
     } catch (e) {
       debugPrint('MandirShrineAudioService.warmUp: $e');
     }
@@ -51,6 +55,21 @@ class MandirShrineAudioService {
     await stopShankh();
   }
 
+  Future<void> _playShankhOn(
+    AudioPlayer player, {
+    required bool loop,
+  }) async {
+    await player.stop();
+    await player.setAudioSource(
+      AudioSource.asset(_shankhAsset),
+      preload: true,
+    );
+    await player.setLoopMode(loop ? LoopMode.one : LoopMode.off);
+    await player.setVolume(1.0);
+    await player.seek(Duration.zero);
+    await player.play();
+  }
+
   Future<void> startAarti() async {
     await _stopExternalPlayers();
     await stopShankh();
@@ -68,7 +87,10 @@ class MandirShrineAudioService {
       await warmUp();
       _aartiPlayer ??= AudioPlayer();
       await _aartiPlayer!.stop();
-      await _aartiPlayer!.setAsset(AssetPaths.mandirAartiSound);
+      await _aartiPlayer!.setAudioSource(
+        AudioSource.asset(AssetPaths.mandirAartiSound),
+        preload: true,
+      );
       await _aartiPlayer!.setLoopMode(LoopMode.one);
       await _aartiPlayer!.setVolume(1.0);
       await _aartiPlayer!.play();
@@ -96,7 +118,9 @@ class MandirShrineAudioService {
     if (kIsWeb) {
       final ok = await mandir_audio.startMandirShankhLoopWeb();
       if (!ok) {
-        debugPrint('MandirShrineAudioService: web shankh failed — full restart करें');
+        debugPrint(
+          'MandirShrineAudioService: web shankh ($_shankhAsset) failed — full restart',
+        );
       }
       return;
     }
@@ -105,11 +129,8 @@ class MandirShrineAudioService {
       await _ensureSession();
       await warmUp();
       _shankhPlayer ??= AudioPlayer();
-      await _shankhPlayer!.stop();
-      await _shankhPlayer!.setAsset(AssetPaths.mandirShankhSound);
-      await _shankhPlayer!.setLoopMode(LoopMode.one);
-      await _shankhPlayer!.setVolume(1.0);
-      await _shankhPlayer!.play();
+      await _playShankhOn(_shankhPlayer!, loop: true);
+      debugPrint('MandirShrineAudioService: playing $_shankhAsset (loop)');
     } catch (e, st) {
       debugPrint('MandirShrineAudioService.startShankh: $e\n$st');
     }
@@ -124,6 +145,32 @@ class MandirShrineAudioService {
       await _shankhPlayer?.stop();
     } catch (e) {
       debugPrint('MandirShrineAudioService.stopShankh: $e');
+    }
+  }
+
+  /// आरती चलते हुए बीच में एक बार शंख — आरती बंद नहीं होती।
+  Future<void> playShankhOnce() async {
+    if (kIsWeb) {
+      final ok = await mandir_audio.playMandirShankhOnceWeb();
+      if (!ok) {
+        debugPrint(
+          'MandirShrineAudioService: web shankh once ($_shankhAsset) failed',
+        );
+      }
+      return;
+    }
+
+    try {
+      await _ensureSession();
+      await warmUp();
+      await _shankhPlayer?.stop();
+
+      await _shankhOncePlayer?.dispose();
+      _shankhOncePlayer = AudioPlayer();
+      await _playShankhOn(_shankhOncePlayer!, loop: false);
+      debugPrint('MandirShrineAudioService: playing $_shankhAsset (once)');
+    } catch (e, st) {
+      debugPrint('MandirShrineAudioService.playShankhOnce: $e\n$st');
     }
   }
 }

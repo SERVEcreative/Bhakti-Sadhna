@@ -81,6 +81,7 @@
         return startMandirLoop('aarti', 'mandir_aarti.mp3');
       };
 
+      /** Loop — सिर्फ mandir_shankh.mp3 (temple_bell नहीं)। */
       window.startMandirShankhLoop = function () {
         window.stopMandirAarti();
         return startMandirLoop('shankh', 'mandir_shankh.mp3');
@@ -102,6 +103,28 @@
           a.currentTime = 0;
         }
         window._mandirLoopAudio.shankh = null;
+      };
+
+      /** आरती के दौरान — एक बार शंख, loop आरती जारी। */
+      window.playMandirShankhOnce = async function () {
+        for (var i = 0; i < mandirMp3Paths('mandir_shankh.mp3').length; i++) {
+          var path = mandirMp3Paths('mandir_shankh.mp3')[i];
+          try {
+            var res = await fetch(path);
+            if (!res.ok) continue;
+            var buf = await res.arrayBuffer();
+            var blob = new Blob([buf], { type: 'audio/mpeg' });
+            var url = URL.createObjectURL(blob);
+            var audio = new Audio(url);
+            audio.loop = false;
+            audio.volume = 1.0;
+            await audio.play();
+            return true;
+          } catch (e) {
+            console.warn('mandir shankh once failed:', path, e);
+          }
+        }
+        return false;
       };
 
     })();

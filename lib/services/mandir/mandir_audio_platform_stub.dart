@@ -5,3 +5,5 @@ Future<bool> startMandirShankhLoopWeb() async => false;
 Future<void> stopMandirAartiWeb() async {}
 
 Future<void> stopMandirShankhWeb() async {}
+
+Future<bool> playMandirShankhOnceWeb() async => false;

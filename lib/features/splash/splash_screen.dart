@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Launch splash: ॐ → स्वचालित मंदिर घंटी → होम।
+/// Launch splash: ॐ → मंदिर घंटी → मंदिर टैब।
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (!kIsWeb) {
       _launchTimer.forward();
     } else {
-      // वेब: अधिकतम 3 सेकंड बाद होम (स्पर्श / घंटी के बाद भी)।
+      // वेब: अधिकतम 3 सेकंड बाद मंदिर (स्पर्श / घंटी के बाद भी)।
       Future<void>.delayed(const Duration(seconds: 3), () {
         if (mounted && !_navigated && _launchTimer.status != AnimationStatus.completed) {
           _launchTimer.forward(from: 0);
@@ -89,14 +89,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _onLaunchTimerStatus(AnimationStatus status) {
     if (status != AnimationStatus.completed || _navigated || !mounted) return;
-    _goHome();
+    _goMandir();
   }
 
-  void _goHome() {
+  void _goMandir() {
     _navigated = true;
     _omPulse.stop();
     _glowPulse.stop();
-    context.go('/');
+    context.go('/?tab=mandir');
   }
 
   Future<void> _ringBell() async {

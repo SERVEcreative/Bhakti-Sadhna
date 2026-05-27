@@ -4,7 +4,7 @@ import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/widgets/app_asset_image.dart';
 import 'package:bhakti_sadhana/widgets/mandir/mandir_aarti_thali.dart';
 import 'package:bhakti_sadhana/widgets/mandir/mandir_carpet_decorations.dart';
-import 'dart:async' show unawaited;
+import 'dart:async' show Timer, unawaited;
 
 import 'package:bhakti_sadhana/services/mandir/mandir_shrine_audio_service.dart';
 import 'package:bhakti_sadhana/widgets/mandir/mandir_genda_phool_rain.dart';
@@ -47,9 +47,11 @@ class _VirtualMandirShrineState extends State<VirtualMandirShrine> {
   bool _shankhActive = false;
   int _phoolRainSession = 0;
   bool _phoolRainVisible = false;
+  Timer? _aartiShankhOnceTimer;
 
   @override
   void dispose() {
+    _aartiShankhOnceTimer?.cancel();
     unawaited(MandirShrineAudioService.instance.stopAll());
     super.dispose();
   }
@@ -58,6 +60,7 @@ class _VirtualMandirShrineState extends State<VirtualMandirShrine> {
   void didUpdateWidget(covariant VirtualMandirShrine oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!widget.thaliInteractionEnabled && (_aartiActive || _shankhActive)) {
+      _aartiShankhOnceTimer?.cancel();
       setState(() {
         _aartiActive = false;
         _shankhActive = false;
@@ -75,11 +78,26 @@ class _VirtualMandirShrineState extends State<VirtualMandirShrine> {
         _aartiActive = true;
         _shankhActive = false;
       });
+      _startPhoolRain();
+      _scheduleShankhOnceDuringAarti();
       await MandirShrineAudioService.instance.startAarti();
     } else {
+      _aartiShankhOnceTimer?.cancel();
       setState(() => _aartiActive = false);
       await MandirShrineAudioService.instance.stopAarti();
     }
+  }
+
+  /// थाली ऊपर उठते समय बीच में एक बार शंख।
+  void _scheduleShankhOnceDuringAarti() {
+    _aartiShankhOnceTimer?.cancel();
+    _aartiShankhOnceTimer = Timer(
+      MandirAartiThaliLayout.riseDuration ~/ 2,
+      () {
+        if (!mounted || !_aartiActive) return;
+        unawaited(MandirShrineAudioService.instance.playShankhOnce());
+      },
+    );
   }
 
   Future<void> _toggleShankh() async {
@@ -98,13 +116,15 @@ class _VirtualMandirShrineState extends State<VirtualMandirShrine> {
     }
   }
 
-  void _onGendaPhoolTap() {
+  void _startPhoolRain() {
     if (!widget.thaliInteractionEnabled) return;
     setState(() {
       _phoolRainSession++;
       _phoolRainVisible = true;
     });
   }
+
+  void _onGendaPhoolTap() => _startPhoolRain();
 
   void _onPhoolRainFinished() {
     if (!mounted) return;
