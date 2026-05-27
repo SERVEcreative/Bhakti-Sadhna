@@ -1,7 +1,5 @@
 import 'package:bhakti_sadhana/core/assets/asset_paths.dart';
-import 'package:bhakti_sadhana/core/l10n/app_strings.dart';
-import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
-import 'package:bhakti_sadhana/services/temple_bell/temple_bell_service.dart';
+import 'package:bhakti_sadhana/widgets/mandir/mandir_top_bar.dart';
 import 'package:bhakti_sadhana/widgets/mandir/virtual_mandir_shrine.dart';
 import 'package:bhakti_sadhana/widgets/temple_background.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +39,6 @@ class _MandirScreenState extends State<MandirScreen> {
   late final PageController _photoController;
   late final List<String> _photoAssets;
   int _pageIndex = 0;
-  bool _bellPlaying = false;
 
   @override
   void initState() {
@@ -58,14 +55,6 @@ class _MandirScreenState extends State<MandirScreen> {
 
   _MandirDeity get _current => _deities[_pageIndex];
 
-  Future<void> _ringBell() async {
-    if (_bellPlaying) return;
-    setState(() => _bellPlaying = true);
-    HapticFeedback.mediumImpact();
-    await TempleBellService.instance.playWithRetry();
-    if (mounted) setState(() => _bellPlaying = false);
-  }
-
   void _onPhotoPageChanged(int index) {
     if (_pageIndex == index) return;
     setState(() => _pageIndex = index);
@@ -80,84 +69,27 @@ class _MandirScreenState extends State<MandirScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _MandirTopBar(playing: _bellPlaying, onBell: _ringBell),
+              MandirTopBar(
+                deityName: _current.nameHi,
+                deityImagePath: _photoAssets[_pageIndex],
+                pageIndex: _pageIndex,
+                totalCount: _deities.length,
+              ),
               Expanded(
-                child: ClipRect(
-                  child: MediaQuery.removePadding(
+                child: MediaQuery.removePadding(
                     context: context,
                     removeLeft: true,
                     removeRight: true,
                     child: VirtualMandirShrine(
-                      deityName: _current.nameHi,
                       photoController: _photoController,
                       photoAssetPaths: _photoAssets,
                       onPhotoPageChanged: _onPhotoPageChanged,
+                      thaliInteractionEnabled: widget.tabActive,
                     ),
                   ),
-                ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _MandirTopBar extends StatelessWidget {
-  const _MandirTopBar({
-    required this.playing,
-    required this.onBell,
-  });
-
-  final bool playing;
-  final VoidCallback onBell;
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: BhaktiTheme.maroonDeep.withValues(alpha: 0.96),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
-        child: Row(
-          children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: BhaktiTheme.goldShimmer,
-              border: Border.all(color: BhaktiTheme.gold, width: 1.5),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'ॐ',
-              style: BhaktiTheme.displayHi.copyWith(
-                fontSize: 20,
-                color: BhaktiTheme.maroonDeep,
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              AppStrings.mandirTitle,
-              style: BhaktiTheme.titleHi.copyWith(fontSize: 20),
-            ),
-          ),
-          IconButton(
-            onPressed: playing ? null : onBell,
-            tooltip: AppStrings.mandirBellButton,
-            style: IconButton.styleFrom(
-              backgroundColor: BhaktiTheme.maroon.withValues(alpha: 0.6),
-              side: BorderSide(color: BhaktiTheme.gold.withValues(alpha: 0.4)),
-            ),
-            icon: Icon(
-              Icons.notifications_active_rounded,
-              color: playing ? BhaktiTheme.saffronLight : BhaktiTheme.goldLight,
-            ),
-          ),
-          ],
         ),
       ),
     );

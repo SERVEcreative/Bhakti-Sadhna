@@ -75,11 +75,17 @@ flutter:
     - assets/images/deities/
     - assets/images/mandir/
     - assets/images/mandir/temple_arch.png
-    - assets/images/mandir/thali_diya.gif
+    - assets/images/mandir/puja_thali.png
+    - assets/images/mandir/genda_phool.png
+    - assets/images/mandir/shankh.png
+    - assets/images/mandir/shankha.png
+    - assets/images/mandir/carpet.png
     - assets/images/categories/
     - assets/images/categories/donation.png
     - assets/sounds/
     - assets/sounds/temple_bell.mp3
+    - assets/sounds/mandir_aarti.mp3
+    - assets/sounds/mandir_shankh.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

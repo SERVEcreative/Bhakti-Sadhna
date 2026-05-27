@@ -15,8 +15,10 @@ abstract final class AppStrings {
   static const String mandirTopHint = 'गर्भगृह में दर्शन कर आरती करें';
   static const String mandirPhotoSwipeHint =
       'फोटो पर बाएँ–दाएँ स्वाइप करें — भगवान बदलें';
-  static const String mandirGarbhagriha = '— गर्भगृह —';
+  static const String mandirGarbhagriha = '— मंदिर —';
   static const String mandirBellButton = 'घंटी';
+  static const String mandirAartiButton = 'आरती';
+  static const String mandirShankhButton = 'शंख';
 
   static const String donationHomeTitle = 'दान पुण्य';
   static const String donationHomeHint =

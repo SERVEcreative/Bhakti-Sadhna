@@ -40,11 +40,70 @@
         return false;
       };
 
-      window.addEventListener('flutter-first-frame', function () {
-        setTimeout(function () {
-          window.playMandirBell().catch(function () {});
-        }, 300);
-      });
+      window._mandirLoopAudio = { aarti: null, shankh: null };
+
+      function mandirMp3Paths(file) {
+        return [
+          'assets/assets/sounds/' + file,
+          'assets/sounds/' + file
+        ];
+      }
+
+      async function startMandirLoop(key, file) {
+        var slot = window._mandirLoopAudio[key];
+        if (slot) {
+          slot.pause();
+          window._mandirLoopAudio[key] = null;
+        }
+        for (var i = 0; i < mandirMp3Paths(file).length; i++) {
+          var path = mandirMp3Paths(file)[i];
+          try {
+            var res = await fetch(path);
+            if (!res.ok) continue;
+            var buf = await res.arrayBuffer();
+            var blob = new Blob([buf], { type: 'audio/mpeg' });
+            var url = URL.createObjectURL(blob);
+            var audio = new Audio(url);
+            audio.loop = true;
+            audio.volume = 1.0;
+            window._mandirLoopAudio[key] = audio;
+            await audio.play();
+            return true;
+          } catch (e) {
+            console.warn('mandir loop failed:', path, e);
+          }
+        }
+        return false;
+      }
+
+      window.startMandirAartiLoop = function () {
+        window.stopMandirShankh();
+        return startMandirLoop('aarti', 'mandir_aarti.mp3');
+      };
+
+      window.startMandirShankhLoop = function () {
+        window.stopMandirAarti();
+        return startMandirLoop('shankh', 'mandir_shankh.mp3');
+      };
+
+      window.stopMandirAarti = function () {
+        var a = window._mandirLoopAudio.aarti;
+        if (a) {
+          a.pause();
+          a.currentTime = 0;
+        }
+        window._mandirLoopAudio.aarti = null;
+      };
+
+      window.stopMandirShankh = function () {
+        var a = window._mandirLoopAudio.shankh;
+        if (a) {
+          a.pause();
+          a.currentTime = 0;
+        }
+        window._mandirLoopAudio.shankh = null;
+      };
+
     })();
   </script>
   <script src="flutter_bootstrap.js" async></script>

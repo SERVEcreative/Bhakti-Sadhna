@@ -112,6 +112,16 @@ class TempleBellService {
     return play();
   }
 
+  Future<void> stop() async {
+    try {
+      await _player?.stop();
+    } catch (e) {
+      debugPrint('TempleBellService.stop: $e');
+    } finally {
+      _isPlaying = false;
+    }
+  }
+
   Future<void> dispose() async {
     await _player?.dispose();
     _player = null;
