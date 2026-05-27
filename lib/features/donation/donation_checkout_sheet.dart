@@ -77,33 +77,60 @@ class _DonationCheckoutSheetState extends State<_DonationCheckoutSheet> {
               ),
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: BhaktiTheme.saffron.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(widget.cause.icon, color: BhaktiTheme.goldLight),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: BhaktiTheme.cardGradient,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: BhaktiTheme.gold.withValues(alpha: 0.45),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.cause.title,
-                        style: BhaktiTheme.titleHi.copyWith(fontSize: 18),
-                      ),
-                      Text(
-                        widget.cause.description,
-                        style: BhaktiTheme.labelSub.copyWith(fontSize: 13),
-                      ),
-                    ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: BhaktiTheme.saffron.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      widget.cause.icon,
+                      color: BhaktiTheme.goldLight,
+                      size: 28,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.cause.title,
+                          style: BhaktiTheme.titleHi.copyWith(fontSize: 20),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.cause.taglineHi,
+                          style: BhaktiTheme.bodyHi.copyWith(
+                            fontSize: 13,
+                            color: BhaktiTheme.saffronLight,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          widget.cause.description,
+                          style: BhaktiTheme.labelSub.copyWith(
+                            fontSize: 12.5,
+                            height: 1.45,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             if (DonationConfig.hasUpi) ...[
               const SizedBox(height: 12),
@@ -187,7 +214,17 @@ class _DonationCheckoutSheetState extends State<_DonationCheckoutSheet> {
               icon: Icons.copy_rounded,
               onTap: () => _copyDetails(),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
+            Text(
+              AppStrings.donationCheckoutBlessing,
+              textAlign: TextAlign.center,
+              style: BhaktiTheme.titleHi.copyWith(
+                fontSize: 14,
+                color: BhaktiTheme.goldLight,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 10),
             Text(
               AppStrings.donationDisclaimer,
               textAlign: TextAlign.center,
@@ -250,10 +287,20 @@ class _DonationQrSection extends StatelessWidget {
             if (!valid)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
-                child: Text(
-                  AppStrings.donationQrSelectAmount,
-                  textAlign: TextAlign.center,
-                  style: BhaktiTheme.labelSub.copyWith(fontSize: 14),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.qr_code_2_rounded,
+                      size: 48,
+                      color: BhaktiTheme.gold.withValues(alpha: 0.5),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      AppStrings.donationQrSelectAmount,
+                      textAlign: TextAlign.center,
+                      style: BhaktiTheme.labelSub.copyWith(fontSize: 14),
+                    ),
+                  ],
                 ),
               )
             else ...[

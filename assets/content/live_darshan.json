@@ -1,0 +1,52 @@
+{
+  "temples": [
+    {
+      "id": "kashi_vishwanath",
+      "nameHi": "श्री काशी विश्वनाथ",
+      "locationHi": "वाराणसी, उत्तर प्रदेश",
+      "deityHi": "भगवान शिव",
+      "youtubeHandle": "AwadhMala",
+      "sourceHi": "लाइव — @AwadhMala"
+    },
+    {
+      "id": "mahakaleshwar",
+      "nameHi": "श्री महाकालेश्वर",
+      "locationHi": "उज्जैन, मध्य प्रदेश",
+      "deityHi": "भगवान शिव (ज्योतिर्लिंग)",
+      "youtubeHandle": "DDAstro",
+      "sourceHi": "महाकालेश्वर — @DDAstro"
+    },
+    {
+      "id": "somnath",
+      "nameHi": "श्री सोमनाथ मंदिर",
+      "locationHi": "प्रभास पाटन, गुजरात",
+      "deityHi": "भगवान शिव (प्रथम ज्योतिर्लिंग)",
+      "youtubeHandle": "SomnathTempleOfficialChannel",
+      "sourceHi": "सोमनाथ — @SomnathTempleOfficialChannel"
+    },
+    {
+      "id": "matanamadh",
+      "nameHi": "श्री मातानामढ़ (आशापुरा माता)",
+      "locationHi": "लखपत, कच्छ, गुजरात",
+      "deityHi": "माता आशापुरा",
+      "youtubeHandle": "Matanamadh",
+      "sourceHi": "मातानामढ़ — @Matanamadh"
+    },
+    {
+      "id": "tirupati_svbc",
+      "nameHi": "श्री वेंकटेश्वर (तिरुमला)",
+      "locationHi": "तिरुपति, आंध्र प्रदेश",
+      "deityHi": "भगवान वेंकटेश्वर",
+      "youtubeChannelId": "UCTboTRX74UydvU_cBdm_cCQ",
+      "sourceHi": "TTD — SVBC लाइव"
+    },
+    {
+      "id": "shirdi_sai",
+      "nameHi": "शिरडी साईं बाबा",
+      "locationHi": "शिरडी, महाराष्ट्र",
+      "deityHi": "साईं बाबा",
+      "youtubeHandle": "Sai_Bhakti_Original",
+      "sourceHi": "साईं भक्ति — @Sai_Bhakti_Original"
+    }
+  ]
+}

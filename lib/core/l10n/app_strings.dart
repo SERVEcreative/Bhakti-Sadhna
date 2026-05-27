@@ -9,7 +9,40 @@ abstract final class AppStrings {
 
   static const String navPuja = 'पूजा';
   static const String navMandir = 'मंदिर';
-  static const String navDaan = 'दान पुण्य';
+  /// Bottom nav — छोटा लेबल (overflow न हो)।
+  static const String navLiveDarshan = 'लाइव';
+  static const String navDaan = 'दान';
+
+  static const String liveDarshanTitle = 'लाइव मंदिर दर्शन';
+  static const String liveDarshanLiveBadge = 'लाइव';
+  static const String liveDarshanHeroTitle = 'भारत के पवित्र मंदिर';
+  static const String liveDarshanHeroSubtitle =
+      'घर बैठे दर्शन — मंदिरों का आधिकारिक लाइव प्रसारण। मंदिर चुनें और दर्शन करें।';
+  static const String liveDarshanPickTemple = 'मंदिर चुनें';
+  static const String liveDarshanOpenYoutube = 'YouTube पर खोलें';
+  static const String liveDarshanWatchOnYoutube = 'लाइव दर्शन — YouTube पर देखें';
+  static const String liveDarshanWatchHint =
+      'सबसे बेहतर अनुभव YouTube ऐप में — एक टैप में लाइव दर्शन।';
+  static const String liveDarshanTryInApp = 'ऐप में देखने की कोशिश करें';
+  static const String liveDarshanBackFromEmbed = 'वापस';
+  static const String liveDarshanClosePlayer = 'बंद करें';
+  static const String liveDarshanResumePlayer = 'लाइव दर्शन देखें';
+  static const String liveDarshanOpenError =
+      'लिंक नहीं खुल सका। इंटरनेट जाँचें।';
+  static const String liveDarshanDisclaimer =
+      'लाइव प्रसारण संबंधित मंदिर/चैनल द्वारा उपलब्ध कराया जाता है। कभी-कभी स्ट्रीम बंद या बदल सकती है — तब दूसरा मंदिर चुनें या YouTube पर खोलें। इंटरनेट आवश्यक है।';
+  static const String liveDarshanTempleClosed = 'मंदिर बंद है';
+  static const String liveDarshanTempleClosedHint =
+      'अभी इस मंदिर पर लाइव प्रसारण नहीं चल रहा। जैसे ही लाइव शुरू होगा, यहाँ स्वतः दर्शन दिखेगा।';
+  static const String liveDarshanChecking = 'लाइव स्थिति जाँच हो रही है…';
+  static const String liveDarshanLiveNow = 'लाइव';
+  static const String liveDarshanRefresh = 'फिर जाँचें';
+  static const String liveDarshanEmbedBlockedHint =
+      'लाइव चल रहा है — कई मंदिर ऐप के अंदर वीडियो नहीं दिखाते। नीचे बटन से YouTube ऐप में दर्शन करें।';
+  static const String liveDarshanEmbedFailedHint =
+      'ऐप में वीडियो उपलब्ध नहीं। YouTube ऐप में लाइव दर्शन चलता है — नीचे बटन दबाएँ।';
+  static const String liveDarshanApiKeyHint =
+      'लाइव स्वतः पकड़ने के लिए build में YOUTUBE_API_KEY जोड़ें (Google Cloud → YouTube Data API v3)।';
 
   static const String mandirTitle = 'आभासी मंदिर';
   static const String mandirTopHint = 'गर्भगृह में दर्शन कर आरती करें';
@@ -22,10 +55,20 @@ abstract final class AppStrings {
 
   static const String donationHomeTitle = 'दान पुण्य';
   static const String donationHomeHint =
-      'गौ दान, मंदिर ट्रस्ट, या ऐप विकास — दान का उद्देश्य चुनें';
+      'श्रद्धा से दान करें — गौ सेवा, मंदिर या भक्ति ऐप में योगदान';
   static const String donationTitle = 'दान पुण्य';
+  static const String donationHeroTitle = 'श्रद्धा का दान — पुण्य का फल';
   static const String donationSubtitle =
-      'श्रद्धा से दान करें — राशि चुनें और QR स्कैन करके UPI से भुगतान करें।';
+      'थोड़ा सा दान भी बड़ा आशीर्वाद बन सकता है। अपनी श्रद्धा से किसी पवित्र कार्य में सहयोग करें — UPI से सुरक्षित और आसान।';
+  static const String donationTrustLine =
+      'आपका दान चुने हुए कार्य में ही लगता है — पारदर्शिता और भक्ति भाव के साथ।';
+  static const String donationBenefitShraddha = 'श्रद्धा';
+  static const String donationBenefitPunya = 'पुण्य';
+  static const String donationBenefitSeva = 'सेवा';
+  static const String donationCardCta = 'दान करें';
+  static const String donationPopularAmounts = 'लोकप्रिय दान राशि';
+  static const String donationCheckoutBlessing =
+      '॥ दान करने वाले पर माता-पिता का आशीर्वाद बना रहे ॥';
   static const String donationAmount = 'दान राशि चुनें';
   static const String donationCustomAmount = 'अन्य राशि (₹)';
   static const String donationCopyDetails = 'दान विवरण कॉपी करें';

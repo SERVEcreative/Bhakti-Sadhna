@@ -39,12 +39,32 @@ class _MandirScreenState extends State<MandirScreen> {
   late final PageController _photoController;
   late final List<String> _photoAssets;
   int _pageIndex = 0;
+  int _welcomeTrigger = 0;
 
   @override
   void initState() {
     super.initState();
     _photoController = PageController();
     _photoAssets = _deities.map((d) => AssetPaths.deityImage(d.id)).toList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _scheduleWelcome();
+    });
+  }
+
+  @override
+  void didUpdateWidget(MandirScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.tabActive && widget.tabActive) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _scheduleWelcome();
+      });
+    }
+  }
+
+  /// मंदिर दिखते ही एक बार फूल + घंटी।
+  void _scheduleWelcome() {
+    if (!widget.tabActive) return;
+    setState(() => _welcomeTrigger++);
   }
 
   @override
@@ -85,6 +105,7 @@ class _MandirScreenState extends State<MandirScreen> {
                       photoAssetPaths: _photoAssets,
                       onPhotoPageChanged: _onPhotoPageChanged,
                       thaliInteractionEnabled: widget.tabActive,
+                      welcomeTrigger: _welcomeTrigger,
                     ),
                   ),
               ),

@@ -10,7 +10,8 @@ int _shellTabIndex(Uri uri) {
   return switch (tab) {
     'puja' || 'home' => 0,
     'mandir' => 1,
-    'daan' || 'donation' => 2,
+    'live' || 'darshan' || 'live-darshan' => 2,
+    'daan' || 'donation' => 3,
     _ => 1,
   };
 }

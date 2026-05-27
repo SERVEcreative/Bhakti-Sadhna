@@ -7,6 +7,7 @@ import 'package:bhakti_sadhana/widgets/mandir/mandir_carpet_decorations.dart';
 import 'dart:async' show Timer, unawaited;
 
 import 'package:bhakti_sadhana/services/mandir/mandir_shrine_audio_service.dart';
+import 'package:bhakti_sadhana/services/temple_bell/temple_bell_service.dart';
 import 'package:bhakti_sadhana/widgets/mandir/mandir_genda_phool_rain.dart';
 import 'dart:ui' show ImageFilter;
 
@@ -26,12 +27,15 @@ class VirtualMandirShrine extends StatefulWidget {
     required this.photoAssetPaths,
     required this.onPhotoPageChanged,
     this.thaliInteractionEnabled = true,
+    this.welcomeTrigger = 0,
   });
 
   final PageController photoController;
   final List<String> photoAssetPaths;
   final ValueChanged<int> onPhotoPageChanged;
   final bool thaliInteractionEnabled;
+  /// बढ़ने पर स्वागत — फूल बारिश + घंटी (एक बार)।
+  final int welcomeTrigger;
 
   /// नीचे थाली + फूल + पूजा सामग्री।
   static double carpetHeight(double totalHeight) {
@@ -59,6 +63,10 @@ class _VirtualMandirShrineState extends State<VirtualMandirShrine> {
   @override
   void didUpdateWidget(covariant VirtualMandirShrine oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.welcomeTrigger != oldWidget.welcomeTrigger &&
+        widget.welcomeTrigger > 0) {
+      _runWelcomeRitual();
+    }
     if (!widget.thaliInteractionEnabled && (_aartiActive || _shankhActive)) {
       _aartiShankhOnceTimer?.cancel();
       setState(() {
@@ -67,6 +75,13 @@ class _VirtualMandirShrineState extends State<VirtualMandirShrine> {
       });
       unawaited(MandirShrineAudioService.instance.stopAll());
     }
+  }
+
+  /// मंदिर खुलते ही — गेंदे फूल + मंदिर घंटी।
+  void _runWelcomeRitual() {
+    if (!widget.thaliInteractionEnabled) return;
+    _startPhoolRain();
+    unawaited(TempleBellService.instance.playWithRetry());
   }
 
   Future<void> _toggleAarti() async {
