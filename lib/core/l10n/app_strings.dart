@@ -115,6 +115,24 @@ abstract final class AppStrings {
   static const String aartiChalaye = 'आरती चलाएँ';
   static const String stepCounter = 'चरण';
   static const String festival = 'त्योहार';
+  static const String festivalHubTitle = 'त्योहार';
+  static const String festivalHubSubtitle =
+      'प्रमुख पर्व — महत्व, तिथि, सामग्री और पूजा विधि';
+  static const String festivalSearchHint = 'त्योहार खोजें…';
+  static const String festivalFeaturedToday = 'आज / निकट के त्योहार';
+  static const String festivalFeaturedMonth = 'इस महीने के त्योहार';
+  static const String festivalAllList = 'सभी त्योहार';
+  static const String festivalSearchEmpty = 'कोई त्योहार नहीं मिला';
+  static const String festivalMahatva = 'महत्व';
+  static const String festivalTithi = 'कब मनाएँ (तिथि)';
+  static const String festivalGoPuja = 'इस देवता की पूजा';
+  static const String festivalGoAarti = 'आरती';
+  static const String festivalGoVratKatha = 'व्रत कथा';
+  static const String festivalNoKatha = 'इस देवता की व्रत कथा अभी उपलब्ध नहीं है।';
+  static const String festivalNotFound = 'त्योहार नहीं मिला';
+  static const String festivalLoadError =
+      'त्योहार डेटा लोड नहीं हुआ। ऐप बंद करके dubara `flutter run` chalao — sirf Hot Restart kaafi nahi hota।';
+  static const String festivalRetry = 'फिर कोशिश करें';
   static const String vratKatha = 'व्रत कथा';
   static const String comingSoonAarti = 'इस देवता की आरती जल्द जोड़ी जाएगी।';
   static const String comingSoonMantra = 'मंत्र जल्द जोड़े जाएंगे।';

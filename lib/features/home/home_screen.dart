@@ -34,9 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = WorshipCategory.values
-        .where((c) => !c.opensDonationScreen)
-        .toList();
+    final categories =
+        WorshipCategory.values.where((c) => c.showOnPujaHome).toList();
 
     return Scaffold(
       body: TempleBackground(
