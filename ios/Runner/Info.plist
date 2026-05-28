@@ -66,6 +66,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Sync: dart run scripts/pull_admob_config_from_supabase.dart -->
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>upi</string>

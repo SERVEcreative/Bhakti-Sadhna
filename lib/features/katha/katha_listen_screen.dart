@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bhakti_sadhana/core/l10n/app_strings.dart';
 import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/services/katha_tts/katha_tts_service.dart';
+import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
 import 'package:bhakti_sadhana/widgets/temple_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -63,7 +64,8 @@ class _KathaListenScreenState extends State<KathaListenScreen> {
       ),
       body: TempleBackground(
         child: SafeArea(
-          child: ValueListenableBuilder<KathaTtsSnapshot>(
+          child: PujaSectionBannerShell(
+            child: ValueListenableBuilder<KathaTtsSnapshot>(
             valueListenable: _tts.snapshot,
             builder: (context, snap, _) {
               return Padding(
@@ -182,6 +184,7 @@ class _KathaListenScreenState extends State<KathaListenScreen> {
                 ),
               );
             },
+          ),
           ),
         ),
       ),

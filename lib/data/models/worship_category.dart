@@ -69,4 +69,7 @@ enum WorshipCategory {
 
   /// देवता चयन नहीं — सीधे दान स्क्रीन।
   bool get opensDonationScreen => this == WorshipCategory.donation;
+
+  /// पूजा bottom-nav टैब — पूजा, आरती, मंत्र, त्योहार, व्रत कथा (दान नहीं)।
+  bool get showsPujaBannerAd => !opensDonationScreen;
 }

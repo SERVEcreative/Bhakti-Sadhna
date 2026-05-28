@@ -1,6 +1,7 @@
 import 'package:bhakti_sadhana/core/l10n/app_strings.dart';
 import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/data/models/katha_book.dart';
+import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
 import 'package:bhakti_sadhana/widgets/temple_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -86,7 +87,8 @@ class _KathaReaderScreenState extends State<KathaReaderScreen> {
       ),
       body: TempleBackground(
         child: SafeArea(
-          child: Column(
+          child: PujaSectionBannerShell(
+            child: Column(
             children: [
               const SizedBox(height: 8),
               Expanded(
@@ -122,6 +124,7 @@ class _KathaReaderScreenState extends State<KathaReaderScreen> {
                     : null,
               ),
             ],
+            ),
           ),
         ),
       ),

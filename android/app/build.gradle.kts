@@ -1,7 +1,20 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+fun readAdmobAndroidAppId(): String {
+    val propsFile = file("${rootProject.projectDir}/admob_app_ids.properties")
+    if (!propsFile.exists()) {
+        return "ca-app-pub-3940256099942544~3347511713"
+    }
+    val props = Properties()
+    propsFile.inputStream().use { props.load(it) }
+    return props.getProperty("ADMOB_APP_ID_ANDROID")?.trim()
+        ?: "ca-app-pub-3940256099942544~3347511713"
 }
 
 android {
@@ -23,6 +36,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["admobAppId"] = readAdmobAndroidAppId()
     }
 
     buildTypes {

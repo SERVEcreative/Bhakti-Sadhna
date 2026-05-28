@@ -10,6 +10,7 @@ import 'package:bhakti_sadhana/widgets/katha/vrat_katha_hub.dart';
 import 'package:bhakti_sadhana/services/aarti_player/aarti_player_service.dart';
 import 'package:bhakti_sadhana/widgets/aarti_player_bar.dart';
 import 'package:bhakti_sadhana/widgets/deity_portrait.dart';
+import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
 import 'package:bhakti_sadhana/widgets/temple_scaffold.dart';
 import 'package:flutter/material.dart';
 class WorshipContentScreen extends StatefulWidget {
@@ -79,7 +80,10 @@ class _WorshipContentScreenState extends State<WorshipContentScreen> {
 
         return TempleScaffold(
           title: deity.name,
-          body: _ContentBody(category: category, deity: deity),
+          body: PujaSectionBannerShell(
+            showBanner: category.showsPujaBannerAd,
+            child: _ContentBody(category: category, deity: deity),
+          ),
         );
       },
     );
@@ -95,7 +99,7 @@ class _ContentBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+      padding: EdgeInsets.fromLTRB(16, 8, 16, category.showsPujaBannerAd ? 16 : 32),
       children: [
         _DeityHero(deity: deity, category: category),
         const SizedBox(height: 20),

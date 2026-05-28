@@ -1,0 +1,100 @@
+{
+  "units": [
+    {
+      "id": "app_id_android",
+      "placement": "app",
+      "adFormat": "app_id",
+      "platform": "android",
+      "adUnitId": "ca-app-pub-3940256099942544~3347511713",
+      "labelHi": "AdMob App ID — Android (test)"
+    },
+    {
+      "id": "app_id_ios",
+      "placement": "app",
+      "adFormat": "app_id",
+      "platform": "ios",
+      "adUnitId": "ca-app-pub-3940256099942544~1458002511",
+      "labelHi": "AdMob App ID — iOS (test)"
+    },
+    {
+      "id": "deity_banner_android",
+      "placement": "deity_content",
+      "adFormat": "banner",
+      "platform": "android",
+      "adUnitId": "ca-app-pub-3940256099942544/6300978111",
+      "labelHi": "बैनर — देवता पूजा/आरती (Android test)"
+    },
+    {
+      "id": "deity_banner_ios",
+      "placement": "deity_content",
+      "adFormat": "banner",
+      "platform": "ios",
+      "adUnitId": "ca-app-pub-3940256099942544/2934735716",
+      "labelHi": "बैनर — देवता पूजा/आरती (iOS test)"
+    },
+    {
+      "id": "puja_exit_interstitial_android",
+      "placement": "puja_exit",
+      "adFormat": "interstitial",
+      "platform": "android",
+      "adUnitId": "ca-app-pub-3940256099942544/1033173712",
+      "labelHi": "इंटरस्टीशियल — पूजा बंद (Android test)"
+    },
+    {
+      "id": "puja_exit_interstitial_ios",
+      "placement": "puja_exit",
+      "adFormat": "interstitial",
+      "platform": "ios",
+      "adUnitId": "ca-app-pub-3940256099942544/4411468910",
+      "labelHi": "इंटरस्टीशियल — पूजा बंद (iOS test)"
+    },
+    {
+      "id": "aarti_rewarded_android",
+      "placement": "aarti_reward",
+      "adFormat": "rewarded",
+      "platform": "android",
+      "adUnitId": "ca-app-pub-3940256099942544/5224354917",
+      "labelHi": "रिवॉर्डेड — आरती (Android test)"
+    },
+    {
+      "id": "aarti_rewarded_ios",
+      "placement": "aarti_reward",
+      "adFormat": "rewarded",
+      "platform": "ios",
+      "adUnitId": "ca-app-pub-3940256099942544/1712485313",
+      "labelHi": "रिवॉर्डेड — आरती (iOS test)"
+    },
+    {
+      "id": "home_native_android",
+      "placement": "home_feed",
+      "adFormat": "native",
+      "platform": "android",
+      "adUnitId": "ca-app-pub-3940256099942544/2247696110",
+      "labelHi": "नेटिव — होम फीड (Android test)"
+    },
+    {
+      "id": "home_native_ios",
+      "placement": "home_feed",
+      "adFormat": "native",
+      "platform": "ios",
+      "adUnitId": "ca-app-pub-3940256099942544/3986624511",
+      "labelHi": "नेटिव — होम फीड (iOS test)"
+    },
+    {
+      "id": "app_open_android",
+      "placement": "app_launch",
+      "adFormat": "app_open",
+      "platform": "android",
+      "adUnitId": "ca-app-pub-3940256099942544/9257395921",
+      "labelHi": "ऐप ओपन — लॉन्च (Android test)"
+    },
+    {
+      "id": "app_open_ios",
+      "placement": "app_launch",
+      "adFormat": "app_open",
+      "platform": "ios",
+      "adUnitId": "ca-app-pub-3940256099942544/5575463023",
+      "labelHi": "ऐप ओपन — लॉन्च (iOS test)"
+    }
+  ]
+}

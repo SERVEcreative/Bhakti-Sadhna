@@ -2,6 +2,7 @@ import 'package:bhakti_sadhana/core/l10n/app_strings.dart';
 import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/data/models/worship_category.dart';
 import 'package:bhakti_sadhana/widgets/category_card.dart';
+import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
 import 'package:bhakti_sadhana/widgets/temple_background.dart';
 import 'package:bhakti_sadhana/widgets/temple_header.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: TempleBackground(
         child: SafeArea(
-          child: CustomScrollView(
+          child: PujaSectionBannerShell(
+            child: CustomScrollView(
             cacheExtent: 200,
             slivers: [
               SliverToBoxAdapter(
@@ -124,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
+            ),
           ),
         ),
       ),

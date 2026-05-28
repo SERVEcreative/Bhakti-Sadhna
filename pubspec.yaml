@@ -49,6 +49,7 @@ dependencies:
   url_launcher: ^6.3.2
   http: ^1.6.0
   youtube_player_iframe: ^6.0.0
+  google_mobile_ads: ^8.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -78,6 +79,7 @@ flutter:
     - assets/content/deities_extra.json
     - assets/content/aarti_audio.json
     - assets/content/live_darshan.json
+    - assets/content/admob_ad_units.json
     - assets/content/mantras.json
     - assets/content/katha/
     - assets/images/deities/

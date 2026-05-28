@@ -4,6 +4,7 @@ import 'package:bhakti_sadhana/data/models/deity.dart';
 import 'package:bhakti_sadhana/data/models/worship_category.dart';
 import 'package:bhakti_sadhana/data/repositories/content_repository.dart';
 import 'package:bhakti_sadhana/widgets/deity_tile.dart' show DeityGridCard;
+import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
 import 'package:bhakti_sadhana/widgets/temple_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +46,9 @@ class _DeitySelectScreenState extends State<DeitySelectScreen> {
 
     return TempleScaffold(
       title: category.label,
-      body: FutureBuilder<List<Deity>>(
+      body: PujaSectionBannerShell(
+        showBanner: category.showsPujaBannerAd,
+        child: FutureBuilder<List<Deity>>(
         future: _deitiesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -115,6 +118,7 @@ class _DeitySelectScreenState extends State<DeitySelectScreen> {
             ],
           );
         },
+        ),
       ),
     );
   }
