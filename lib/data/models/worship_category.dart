@@ -22,13 +22,6 @@ enum WorshipCategory {
     Icons.auto_awesome_rounded,
     'assets/images/categories/mantra.png',
   ),
-  festival(
-    'festival',
-    'त्योहार',
-    'पर्व विधि',
-    Icons.celebration_rounded,
-    'assets/images/categories/festival.png',
-  ),
   vrat(
     'vrat',
     'व्रत कथा',
@@ -70,9 +63,8 @@ enum WorshipCategory {
   /// देवता चयन नहीं — सीधे दान स्क्रीन।
   bool get opensDonationScreen => this == WorshipCategory.donation;
 
-  /// पूजा होम ग्रिड पर दिखे (दान / त्योहार अलग या बंद)।
-  bool get showOnPujaHome =>
-      !opensDonationScreen && this != WorshipCategory.festival;
+  /// पूजा होम ग्रिड पर दिखे (दान अलग टैब)।
+  bool get showOnPujaHome => !opensDonationScreen;
 
   /// पूजा bottom-nav टैब — पूजा, आरती, मंत्र, व्रत कथा (दान नहीं)।
   bool get showsPujaBannerAd => !opensDonationScreen;

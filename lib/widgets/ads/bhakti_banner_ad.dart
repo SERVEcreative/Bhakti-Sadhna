@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bhakti_sadhana/config/ad_config.dart';
 import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
+import 'package:bhakti_sadhana/services/ads/ad_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -24,15 +25,8 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
   var _loadFailed = false;
   var _loading = false;
   int? _loadedForWidth;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final width = MediaQuery.sizeOf(context).width.truncate();
-    if (_loading || _loadedForWidth == width) return;
-    _loadedForWidth = width;
-    unawaited(_loadBanner(width));
-  }
+  var _retryCount = 0;
+  static const _maxRetries = 2;
 
   String get _adUnitId {
     if (widget.placement == AdConfig.placementDeityContent) {
@@ -45,9 +39,15 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
   }
 
   Future<void> _loadBanner(int width) async {
-    final unitId = _adUnitId;
-    if (!AdConfig.supportsMobileAds || unitId.isEmpty) return;
+    if (!AdConfig.supportsMobileAds || width <= 0) return;
     if (_loading) return;
+
+    final unitId = _adUnitId;
+    if (unitId.isEmpty) {
+      debugPrint('BhaktiBannerAd: empty unit id');
+      if (mounted) setState(() => _loadFailed = true);
+      return;
+    }
 
     _loading = true;
     _banner?.dispose();
@@ -59,23 +59,40 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
       });
     }
 
-    // Standard anchored adaptive (~50dp tall). Large API is ~3× taller.
-    // ignore: deprecated_member_use
-    final size = await AdSize.getAnchoredAdaptiveBannerAdSize(
-      MediaQuery.orientationOf(context),
-      width,
-    );
+    try {
+      await AdService.ensureReady();
+    } catch (e) {
+      debugPrint('BhaktiBannerAd: AdService not ready — $e');
+      if (mounted) {
+        setState(() {
+          _loadFailed = true;
+          _loading = false;
+        });
+      }
+      return;
+    }
+
     if (!mounted) {
       _loading = false;
       return;
     }
-    if (size == null) {
-      setState(() {
-        _loadFailed = true;
-        _loading = false;
-      });
+
+    AdSize size;
+    // ignore: deprecated_member_use
+    final adaptive = await AdSize.getAnchoredAdaptiveBannerAdSize(
+      MediaQuery.orientationOf(context),
+      width,
+    );
+    size = adaptive ?? AdSize.banner;
+
+    if (!mounted) {
+      _loading = false;
       return;
     }
+
+    debugPrint(
+      'BhaktiBannerAd: loading $unitId (${size.width}x${size.height})',
+    );
 
     final banner = BannerAd(
       adUnitId: unitId,
@@ -83,6 +100,7 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
       request: AdConfig.adRequest,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
+          debugPrint('BhaktiBannerAd: loaded');
           if (!mounted) {
             ad.dispose();
             return;
@@ -91,6 +109,7 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
             _isLoaded = true;
             _loadFailed = false;
             _loading = false;
+            _retryCount = 0;
           });
         },
         onAdFailedToLoad: (ad, error) {
@@ -99,12 +118,22 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
             '${error.code} ${error.message}',
           );
           ad.dispose();
-          if (mounted) {
-            setState(() {
-              _loadFailed = true;
-              _loading = false;
+          if (!mounted) return;
+
+          if (_retryCount < _maxRetries) {
+            _retryCount++;
+            _loading = false;
+            _loadedForWidth = null;
+            Future<void>.delayed(const Duration(seconds: 2), () {
+              if (mounted) _scheduleLoad(width);
             });
+            return;
           }
+
+          setState(() {
+            _loadFailed = true;
+            _loading = false;
+          });
         },
       ),
     );
@@ -113,6 +142,13 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
     if (mounted && !_isLoaded && !_loadFailed) {
       setState(() => _loading = false);
     }
+  }
+
+  void _scheduleLoad(int width) {
+    if (!mounted || width <= 0) return;
+    if (_loading || (_loadedForWidth == width && _isLoaded)) return;
+    _loadedForWidth = width;
+    unawaited(_loadBanner(width));
   }
 
   @override
@@ -136,76 +172,89 @@ class _BhaktiBannerAdState extends State<BhaktiBannerAd> {
   Widget build(BuildContext context) {
     if (!AdConfig.supportsMobileAds) return const SizedBox.shrink();
 
-    if (_isLoaded && _banner != null) {
-      final ad = _banner!;
-      final h = ad.size.height.toDouble();
-      final w = ad.size.width.toDouble();
-      return _shell(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: BhaktiTheme.gold.withValues(alpha: 0.2),
-              ),
-            ),
-          ),
-          child: SizedBox(
-            width: double.infinity,
-            height: h,
-            child: Align(
-              alignment: Alignment.center,
-              widthFactor: 1,
-              child: SizedBox(
-                width: w,
-                height: h,
-                child: AdWidget(ad: ad),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth.truncate();
+        if (width > 0 &&
+            !_loading &&
+            !_isLoaded &&
+            (_loadedForWidth != width || _loadFailed)) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _scheduleLoad(width);
+          });
+        }
 
-    if (_loadFailed) {
-      return _shell(
-        child: InkWell(
-          onTap: () {
-            final width = MediaQuery.sizeOf(context).width.truncate();
-            _loadedForWidth = null;
-            unawaited(_loadBanner(width));
-          },
+        if (_isLoaded && _banner != null) {
+          final ad = _banner!;
+          final h = ad.size.height.toDouble();
+          final w = ad.size.width.toDouble();
+          return _shell(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: BhaktiTheme.gold.withValues(alpha: 0.2),
+                  ),
+                ),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: h,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: w,
+                    height: h,
+                    child: AdWidget(ad: ad),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+
+        if (_loadFailed) {
+          return _shell(
+            child: InkWell(
+              onTap: () {
+                _retryCount = 0;
+                _loadedForWidth = null;
+                _scheduleLoad(width);
+              },
+              child: SizedBox(
+                height: 52,
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    'विज्ञापन लोड नहीं हुआ — फिर कोशिश करें',
+                    style: BhaktiTheme.labelSub.copyWith(
+                      fontSize: 11,
+                      color: BhaktiTheme.cream.withValues(alpha: 0.5),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+
+        return _shell(
           child: SizedBox(
-            height: 52,
+            height: 50,
             width: double.infinity,
-            child: Center(
-              child: Text(
-                'विज्ञापन लोड नहीं हुआ — फिर कोशिश करें',
-                style: BhaktiTheme.labelSub.copyWith(
-                  fontSize: 11,
-                  color: BhaktiTheme.cream.withValues(alpha: 0.5),
+            child: const Center(
+              child: SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: BhaktiTheme.saffron,
                 ),
               ),
             ),
           ),
-        ),
-      );
-    }
-
-    return _shell(
-      child: SizedBox(
-        height: 50,
-        width: double.infinity,
-        child: const Center(
-          child: SizedBox(
-            width: 18,
-            height: 18,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: BhaktiTheme.saffron,
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

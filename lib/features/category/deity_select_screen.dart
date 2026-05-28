@@ -82,7 +82,7 @@ class _DeitySelectScreenState extends State<DeitySelectScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${deities.length} देवी-देवता • ${category.subtitle}',
+                        '${deities.length} ${AppStrings.deityCountLabel} • ${category.subtitle}',
                         style: BhaktiTheme.labelSub,
                       ),
                       const SizedBox(height: 16),
@@ -175,8 +175,6 @@ class _CategoryBanner extends StatelessWidget {
         'पूर्ण आरती और स्तुति के श्लोक — दीप जलाकर पढ़ें।',
       WorshipCategory.mantra =>
         'पवित्र मंत्र और उनका अर्थ — जप के लिए।',
-      WorshipCategory.festival =>
-        'प्रमुख त्योहारों की पूजा विधि संक्षेप में।',
       WorshipCategory.vrat =>
         'व्रत की कथा और नियम — श्रद्धा से पालन करें।',
       WorshipCategory.donation =>

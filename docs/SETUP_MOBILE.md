@@ -10,21 +10,24 @@
 
 ---
 
-## Step 1 — Ek baar setup script chalao
+## Step 1 — Mac par tools install karo
 
-Mac par **Terminal** kholo aur ye commands:
+- **Android:** Android Studio ya `android-commandlinetools` + `platform-tools` (Homebrew)
+- **iPhone (optional):** App Store se **Xcode** + `sudo gem install cocoapods`
 
 ```bash
-cd /Users/rahulkumar/Apps_vive_coded/Apps/App3
-chmod +x scripts/setup_mac_mobile.sh
-bash scripts/setup_mac_mobile.sh
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+flutter config --android-sdk "$ANDROID_HOME"
+flutter doctor
 ```
 
-- Password maangega (`sudo`) — apna Mac password dalo  
-- **Xcode** App Store se download hoga / install karna hoga  
-- **Android SDK** + Java install honge  
+**Xcode** install ke baad:
 
-Script khatam hone ke baad `flutter doctor` mein ✓ dikhna chahiye.
+```bash
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -runFirstLaunch
+```
 
 ---
 
@@ -32,7 +35,7 @@ Script khatam hone ke baad `flutter doctor` mein ✓ dikhna chahiye.
 
 1. App Store → **Xcode** install (~12 GB, 30–60 min)  
 2. Pehli baar Xcode kholo → license accept  
-3. Dubara script chalao ya manually:
+3. Dubara manually:
 
 ```bash
 sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer

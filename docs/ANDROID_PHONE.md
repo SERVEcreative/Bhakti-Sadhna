@@ -2,18 +2,7 @@
 
 ## A — Ek baar Mac par setup (15–20 min)
 
-### Option 1: Script (recommended)
-
-Terminal kholo:
-
-```bash
-cd /Users/rahulkumar/Apps_vive_coded/Apps/App3
-bash scripts/setup_android.sh
-```
-
-Mac password do jab maange. Khatam hone par `flutter doctor` mein Android ✓ hona chahiye.
-
-### Option 2: Android Studio (aasaan UI)
+### Android Studio (recommended)
 
 1. Download: https://developer.android.com/studio  
 2. Install karo, open karo → **SDK** install hone do  
@@ -21,6 +10,16 @@ Mac password do jab maange. Khatam hone par `flutter doctor` mein Android ✓ ho
 
 ```bash
 flutter config --android-sdk ~/Library/Android/sdk
+flutter doctor
+```
+
+### Ya Homebrew se command-line tools
+
+```bash
+brew install --cask temurin android-commandlinetools android-platform-tools
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+flutter config --android-sdk "$ANDROID_HOME"
 flutter doctor
 ```
 
@@ -67,7 +66,7 @@ Pehli build 5–10 minute lag sakti hai.
 | Problem | Fix |
 |---------|-----|
 | `flutter devices` mein phone nahi | Cable badlo, debugging ON, phone unlock rakho |
-| `adb` not found | `bash scripts/setup_android.sh` dubara |
+| `adb` not found | `export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"` |
 | `Android SDK not found` | `flutter config --android-sdk ~/Library/Android/sdk` |
 | Install blocked | Phone par **Install unknown apps** allow / purana app hatao |
 

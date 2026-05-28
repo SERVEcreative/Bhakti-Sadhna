@@ -1,7 +1,7 @@
 /// सारी ऐप UI पाठ — केवल हिंदी।
 abstract final class AppStrings {
   static const String appTitle = 'भक्ति साधना';
-  static const String appTagline = 'पूजा • आरती • मंत्र';
+  static const String appTagline = 'पूजा • मंदिर • लाइव • दान';
   static const String bellPlaying = 'मंदिर की घंटी बज रही है…';
   static const String webEnterHint = 'मंदिर में प्रवेश — स्क्रीन पर स्पर्श करें';
   static const String homePrompt = 'आज क्या करना चाहेंगे?';
@@ -53,9 +53,6 @@ abstract final class AppStrings {
   static const String mandirAartiButton = 'आरती';
   static const String mandirShankhButton = 'शंख';
 
-  static const String donationHomeTitle = 'दान पुण्य';
-  static const String donationHomeHint =
-      'श्रद्धा से दान करें — गौ सेवा, मंदिर या भक्ति ऐप में योगदान';
   static const String donationTitle = 'दान पुण्य';
   static const String donationHeroTitle = 'श्रद्धा का दान — पुण्य का फल';
   static const String donationSubtitle =
@@ -84,6 +81,9 @@ abstract final class AppStrings {
       'दान संबंधित भुगतान आपके UPI/बैंक ऐप से होगा। राशि सत्यापन के बाद ही पुष्टि मानें।';
   static const String disclaimer =
       'विधि सम्प्रदायानुसार भिन्न हो सकती है। स्थानीय परंपरा के अनुसार पूजा करें।';
+  static const String privacyPolicy = 'गोपनीयता नीति';
+  static const String privacyPolicyOpenError =
+      'गोपनीयता नीति का लिंक नहीं खुल सका। इंटरनेट जाँचें।';
 
   static const String errorInvalidCategory = 'अमान्य श्रेणी';
   static const String errorTitle = 'त्रुटि';
@@ -114,25 +114,6 @@ abstract final class AppStrings {
       'आवाज़ चल नहीं सकी। डिवाइस में हिंदी TTS सक्षम है या नहीं, जाँचें।';
   static const String aartiChalaye = 'आरती चलाएँ';
   static const String stepCounter = 'चरण';
-  static const String festival = 'त्योहार';
-  static const String festivalHubTitle = 'त्योहार';
-  static const String festivalHubSubtitle =
-      'प्रमुख पर्व — महत्व, तिथि, सामग्री और पूजा विधि';
-  static const String festivalSearchHint = 'त्योहार खोजें…';
-  static const String festivalFeaturedToday = 'आज / निकट के त्योहार';
-  static const String festivalFeaturedMonth = 'इस महीने के त्योहार';
-  static const String festivalAllList = 'सभी त्योहार';
-  static const String festivalSearchEmpty = 'कोई त्योहार नहीं मिला';
-  static const String festivalMahatva = 'महत्व';
-  static const String festivalTithi = 'कब मनाएँ (तिथि)';
-  static const String festivalGoPuja = 'इस देवता की पूजा';
-  static const String festivalGoAarti = 'आरती';
-  static const String festivalGoVratKatha = 'व्रत कथा';
-  static const String festivalNoKatha = 'इस देवता की व्रत कथा अभी उपलब्ध नहीं है।';
-  static const String festivalNotFound = 'त्योहार नहीं मिला';
-  static const String festivalLoadError =
-      'त्योहार डेटा लोड नहीं हुआ। ऐप बंद करके dubara `flutter run` chalao — sirf Hot Restart kaafi nahi hota।';
-  static const String festivalRetry = 'फिर कोशिश करें';
   static const String vratKatha = 'व्रत कथा';
   static const String comingSoonAarti = 'इस देवता की आरती जल्द जोड़ी जाएगी।';
   static const String comingSoonMantra = 'मंत्र जल्द जोड़े जाएंगे।';
@@ -145,5 +126,5 @@ abstract final class AppStrings {
   static const String aartiPlayError =
       'आरती चल नहीं सकी। इंटरनेट जाँचें और MP3 Supabase bucket में upload है या नहीं, यह देखें।';
   static const String aartiSupabaseSetup =
-      'Supabase URL/Key configure करें और bucket "aartis" में MP3 upload करें (scripts/setup_supabase.sh देखें)।';
+      'Supabase URL/Key configure करें और bucket "aartis" में MP3 upload करें (`supabase/storage_policies.sql` देखें)।';
 }

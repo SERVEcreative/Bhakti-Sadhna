@@ -8,7 +8,7 @@
 PRODUCT_NAME = bhakti_sadhana
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.bhaktisadhana.bhaktiSadhana
+PRODUCT_BUNDLE_IDENTIFIER = com.servecreative.bhakti_sadhana
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.bhaktisadhana. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.servecreative. All rights reserved.

@@ -3,27 +3,36 @@ import 'package:bhakti_sadhana/data/repositories/admob_config_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-/// AdMob SDK — test mode / Supabase units, फिर initialize।
+/// AdMob SDK — Supabase units, फिर initialize।
 class AdService {
   AdService._();
 
   static var _initialized = false;
+  static Future<void>? _initFuture;
 
-  static Future<void> init() async {
+  /// Banner load se pehle await karein — SDK + unit IDs ready।
+  static Future<void> ensureReady() {
+    if (!AdConfig.supportsMobileAds) return Future.value();
+    _initFuture ??= _doInit();
+    return _initFuture!;
+  }
+
+  static Future<void> init() => ensureReady();
+
+  static Future<void> _doInit() async {
     if (_initialized || !AdConfig.supportsMobileAds) return;
     try {
       await AdMobConfigRepository.instance.load();
       _logAppIdSyncHint();
 
-      await MobileAds.instance.initialize();
-
+      // RequestConfiguration initialize se pehle (physical device par test ads)।
       if (AdConfig.useTestAds) {
         await MobileAds.instance.updateRequestConfiguration(
-          RequestConfiguration(
-            testDeviceIds: kDebugMode ? const <String>['EMULATOR'] : const [],
-          ),
+          RequestConfiguration(testDeviceIds: const <String>[]),
         );
       }
+
+      await MobileAds.instance.initialize();
 
       _initialized = true;
       debugPrint(
@@ -32,6 +41,7 @@ class AdService {
       );
     } catch (e, st) {
       debugPrint('AdService init failed: $e\n$st');
+      rethrow;
     }
   }
 

@@ -3,13 +3,16 @@ import 'package:bhakti_sadhana/core/theme/bhakti_theme.dart';
 import 'package:bhakti_sadhana/data/models/worship_category.dart';
 import 'package:bhakti_sadhana/widgets/category_card.dart';
 import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
+import 'package:bhakti_sadhana/widgets/legal/legal_links_footer.dart';
 import 'package:bhakti_sadhana/widgets/temple_background.dart';
 import 'package:bhakti_sadhana/widgets/temple_header.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, this.tabActive = true});
+
+  final bool tabActive;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -41,8 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: TempleBackground(
         child: SafeArea(
           child: PujaSectionBannerShell(
+            key: ValueKey('puja_home_banner_${widget.tabActive}'),
+            showBanner: widget.tabActive,
             child: CustomScrollView(
-            cacheExtent: 200,
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
@@ -105,20 +109,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: BhaktiTheme.gold.withValues(alpha: 0.3),
                       ),
                     ),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Icon(
-                          Icons.info_outline_rounded,
-                          color: BhaktiTheme.saffronLight.withValues(alpha: 0.9),
-                          size: 22,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.info_outline_rounded,
+                              color: BhaktiTheme.saffronLight.withValues(alpha: 0.9),
+                              size: 22,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                AppStrings.disclaimer,
+                                style: BhaktiTheme.bodyHi.copyWith(fontSize: 14),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            AppStrings.disclaimer,
-                            style: BhaktiTheme.bodyHi.copyWith(fontSize: 14),
-                          ),
-                        ),
+                        const LegalLinksFooter(),
                       ],
                     ),
                   ),

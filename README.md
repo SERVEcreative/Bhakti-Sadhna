@@ -14,7 +14,7 @@ Hindi devotional Flutter app — Sanatan Dharma traditional worship guidance.
 flutter pub get
 ```
 
-Configure Supabase in `lib/config/supabase_config.dart`, create the `aartis` bucket, and upload MP3s per `assets/content/aarti_audio.json`. See `docs/` and `scripts/setup_supabase.sh`.
+Configure Supabase in `lib/config/supabase_config.dart`, create the `aartis` bucket, and upload MP3s per `assets/content/aarti_audio.json`. See `docs/` and `supabase/storage_policies.sql`.
 
 ## Run
 

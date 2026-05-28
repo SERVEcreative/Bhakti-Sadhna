@@ -5,6 +5,8 @@ import 'package:bhakti_sadhana/data/donation_catalog.dart';
 import 'package:bhakti_sadhana/data/models/donation_cause.dart';
 import 'package:bhakti_sadhana/data/models/worship_category.dart';
 import 'package:bhakti_sadhana/features/donation/donation_checkout_sheet.dart';
+import 'package:bhakti_sadhana/widgets/ads/puja_section_banner_shell.dart';
+import 'package:bhakti_sadhana/widgets/legal/legal_links_footer.dart';
 import 'package:bhakti_sadhana/widgets/temple_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,17 +26,21 @@ class DonationScreen extends StatelessWidget {
     return TempleScaffold(
       title: AppStrings.donationTitle,
       showBackButton: !inTab,
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
-        children: [
-          const _DonationHero(),
-          const SizedBox(height: 16),
-          const _DonationBenefitStrip(),
-          const SizedBox(height: 20),
-          _DonationCausesSection(highlightCauseId: highlightCauseId),
-          const SizedBox(height: 20),
-          const _DonationTrustFooter(),
-        ],
+      body: PujaSectionBannerShell(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          children: [
+            const _DonationHero(),
+            const SizedBox(height: 16),
+            const _DonationBenefitStrip(),
+            const SizedBox(height: 20),
+            _DonationCausesSection(highlightCauseId: highlightCauseId),
+            const SizedBox(height: 20),
+            const _DonationTrustFooter(),
+            const SizedBox(height: 8),
+            const LegalLinksFooter(),
+          ],
+        ),
       ),
     );
   }

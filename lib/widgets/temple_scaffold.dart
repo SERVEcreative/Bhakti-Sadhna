@@ -9,12 +9,14 @@ class TempleScaffold extends StatelessWidget {
     required this.title,
     required this.body,
     this.floatingAction,
+    this.actions,
     this.showBackButton = true,
   });
 
   final String title;
   final Widget body;
   final Widget? floatingAction;
+  final List<Widget>? actions;
   final bool showBackButton;
 
   @override
@@ -33,6 +35,7 @@ class TempleScaffold extends StatelessWidget {
               )
             : null,
         title: Text(title, style: BhaktiTheme.titleHi.copyWith(fontSize: 20)),
+        actions: actions,
       ),
       body: TempleBackground(
         child: SafeArea(

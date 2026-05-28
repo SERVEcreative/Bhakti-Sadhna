@@ -37,7 +37,7 @@ class MainShellScreenState extends State<MainShellScreen> {
       body: IndexedStack(
         index: _index,
         children: [
-          const HomeScreen(),
+          HomeScreen(tabActive: _index == 0),
           MandirScreen(tabActive: _index == 1),
           // WebView सिर्फ लाइव टैब पर — दूसरे पेजों पर overflow/bleed नहीं।
           if (_index == 2)

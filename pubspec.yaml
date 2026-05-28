@@ -51,15 +51,6 @@ dependencies:
   youtube_player_iframe: ^6.0.0
   google_mobile_ads: ^8.0.0
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  youtube_explode_dart: ^2.5.3
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -75,27 +66,11 @@ flutter:
 
   assets:
     - assets/content/
-    - assets/content/deities.json
-    - assets/content/deities_extra.json
-    - assets/content/aarti_audio.json
-    - assets/content/live_darshan.json
-    - assets/content/admob_ad_units.json
-    - assets/content/mantras.json
     - assets/content/katha/
     - assets/images/deities/
     - assets/images/mandir/
-    - assets/images/mandir/temple_arch.png
-    - assets/images/mandir/puja_thali.png
-    - assets/images/mandir/genda_phool.png
-    - assets/images/mandir/shankh.png
-    - assets/images/mandir/shankha.png
-    - assets/images/mandir/carpet.png
     - assets/images/categories/
-    - assets/images/categories/donation.png
     - assets/sounds/
-    - assets/sounds/temple_bell.mp3
-    - assets/sounds/mandir_aarti.mp3
-    - assets/sounds/mandir_shankh.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

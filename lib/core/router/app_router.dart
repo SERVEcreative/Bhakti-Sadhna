@@ -1,7 +1,10 @@
 import 'package:bhakti_sadhana/features/category/deity_select_screen.dart';
 import 'package:bhakti_sadhana/features/content/worship_content_screen.dart';
+import 'package:bhakti_sadhana/features/legal/legal_webview_screen.dart';
 import 'package:bhakti_sadhana/features/shell/main_shell_screen.dart';
 import 'package:bhakti_sadhana/features/splash/splash_screen.dart';
+import 'package:bhakti_sadhana/config/legal_config.dart';
+import 'package:bhakti_sadhana/core/l10n/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,6 +54,28 @@ final appRouter = GoRouter(
           return '/?tab=daan&cause=$cause';
         }
         return '/?tab=daan';
+      },
+    ),
+    GoRoute(
+      path: '/legal/privacy',
+      pageBuilder: (context, state) {
+        final url = state.extra as String? ?? LegalConfig.privacyPolicyUrl;
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: LegalWebViewScreen(
+            title: AppStrings.privacyPolicy,
+            url: url,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.04),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
+              child: child,
+            );
+          },
+        );
       },
     ),
     GoRoute(

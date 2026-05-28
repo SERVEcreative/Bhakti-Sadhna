@@ -4,17 +4,13 @@ abstract final class AssetPaths {
 
   static String deityImage(String id) => 'assets/images/deities/$id.png';
 
-  static String categoryImage(String id) => 'assets/images/categories/$id.png';
-
   static const String mandirTempleArch = 'assets/images/mandir/temple_arch.png';
 
   static const String mandirPujaThali = 'assets/images/mandir/puja_thali.png';
   static const String mandirGendaPhool = 'assets/images/mandir/genda_phool.png';
-  static const String mandirNariyal = 'assets/images/mandir/nariyal.png';
   static const String mandirShankha = 'assets/images/mandir/shankh.png';
   /// Purane bundles / rename se pehle wala naam.
   static const String mandirShankhaLegacy = 'assets/images/mandir/shankha.png';
-  static const String mandirPaan = 'assets/images/mandir/paan.png';
   static const String mandirCarpet = 'assets/images/mandir/carpet.png';
 
   static const String mandirAartiSound = 'assets/sounds/mandir_aarti.mp3';

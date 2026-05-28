@@ -107,7 +107,6 @@ class _ContentBody extends StatelessWidget {
           WorshipCategory.puja => _pujaContent(context, deity),
           WorshipCategory.aarti => _aartiContent(deity),
           WorshipCategory.mantra => _mantraContent(deity),
-          WorshipCategory.festival => _textSection(AppStrings.festival, deity.festival),
           WorshipCategory.vrat => [VratKathaHub(deity: deity)],
           WorshipCategory.donation => const [],
         },
@@ -165,17 +164,6 @@ class _ContentBody extends StatelessWidget {
           ),
         )
         .toList();
-  }
-
-  List<Widget> _textSection(String title, String body) {
-    if (body.isEmpty) {
-      return [_emptyNote('$title ${AppStrings.comingSoonSection}')];
-    }
-    return [
-      _SectionTitle(title, Icons.menu_book_rounded),
-      const SizedBox(height: 12),
-      _VerseCard(verses: body.split('\n').where((l) => l.trim().isNotEmpty).toList()),
-    ];
   }
 
   Widget _emptyNote(String msg) => Container(
