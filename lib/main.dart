@@ -14,8 +14,9 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  await SupabaseBootstrap.init();
-  await AdService.init();
+  // UI turant dikhe — Supabase/AdMob background mein init (Play release par 20–30s freeze ho raha tha)
+  unawaited(SupabaseBootstrap.init());
+  unawaited(AdService.init());
   BhaktiTheme.titleHi;
   BhaktiTheme.bodyHi;
   BhaktiTheme.labelSub;

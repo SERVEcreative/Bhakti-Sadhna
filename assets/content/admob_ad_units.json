@@ -5,8 +5,8 @@
       "placement": "app",
       "adFormat": "app_id",
       "platform": "android",
-      "adUnitId": "ca-app-pub-3940256099942544~3347511713",
-      "labelHi": "AdMob App ID — Android (test)"
+      "adUnitId": "ca-app-pub-6827778613476055~1299323152",
+      "labelHi": "AdMob App ID — Android (production)"
     },
     {
       "id": "app_id_ios",
@@ -21,8 +21,8 @@
       "placement": "deity_content",
       "adFormat": "banner",
       "platform": "android",
-      "adUnitId": "ca-app-pub-3940256099942544/6300978111",
-      "labelHi": "बैनर — देवता पूजा/आरती (Android test)"
+      "adUnitId": "ca-app-pub-6827778613476055/6165167256",
+      "labelHi": "बैनर — production (Android)"
     },
     {
       "id": "deity_banner_ios",

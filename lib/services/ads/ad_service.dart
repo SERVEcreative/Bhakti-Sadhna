@@ -41,7 +41,7 @@ class AdService {
       );
     } catch (e, st) {
       debugPrint('AdService init failed: $e\n$st');
-      rethrow;
+      // Release par crash mat karo — banner baad mein retry karega
     }
   }
 
